@@ -7,7 +7,7 @@ using Sirenix.OdinInspector.Editor;
 
 public class FreeCamera_Editor : OdinEditorWindow
 {
-    [MenuItem("Custom/Editor", priority = 0)]
+    [MenuItem("KoEditor/Tools/FreeCamera", priority = 0)]
     public static void ShowWindow()
     {
         GetWindow<FreeCamera_Editor>().Show();
@@ -24,16 +24,9 @@ public class FreeCamera_Editor : OdinEditorWindow
     private readonly bool warningAppIsPlaying;
 
 
-    #region SCENE
     [TabGroup("MAIN", "SCENE")]
     [InfoBox("Updates the GameView camera to match SceneView camera Only works if all CineMachine cameras are disabled.")]
     public bool syncEditorCam = false;
-    #endregion
-
-
-    [TabGroup("MAIN", "TAB")]
-    [InfoBox("Updates the GameView camera to match SceneView camera Only works if all CineMachine cameras are disabled.")]
-    public bool another = false;
 
     private void Update()
     {
