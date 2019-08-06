@@ -21,9 +21,9 @@ public class PrefabSpawner : OdinEditorWindow
 
    [AssetList(CustomFilterMethod = "IsPrefab", AssetNamePrefix = "prefab")]
    [InlineEditor(InlineEditorModes.SmallPreview)]
-    public List<Transform> Prefabs;
+    public List<GameObject> Prefabs;
 
-    private bool IsPrefab(Transform obj)
+    private bool IsPrefab(GameObject obj)
     {
         return PrefabUtility.GetPrefabAssetType(obj) == PrefabAssetType.Regular;
     }
