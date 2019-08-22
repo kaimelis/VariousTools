@@ -77,7 +77,7 @@ namespace Custom.Tool.AutoBuild
                     BuildManager.Instance.SwitchPlatform(selected.Name);
                 }
 
-                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Preapre for a build")))
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Upgrade Version")))
                 {
                     //update version
                     VersionManager.Instance.UpdateVersion();

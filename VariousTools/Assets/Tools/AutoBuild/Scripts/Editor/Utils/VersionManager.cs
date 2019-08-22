@@ -39,17 +39,9 @@ namespace Custom.Tool.AutoBuild
         
         public void CreateNewVersionFile()
         {
-            FileReaderWriter.CreateFile(_pathVersion);
-            GetTagFromGit();
-            //_version = PlayerSettings.bundleVersion;
-            FileReaderWriter.WriteToFile(_pathVersion, _version);
+             GitHande.RunGitCommand("tbs unity version v0.1.0");
         }
 
-        private void GetTagFromGit()
-        {
-           _version = GitHande.GetGitOutput("tbs unity version v0.1.0");
-        }
-        
         private string GetVersionFromFile()
         {
             string fileVersion = "";
