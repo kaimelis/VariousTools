@@ -32,16 +32,37 @@ namespace Custom.Tool.AutoBuild
 
         private string _pathVersion = Path.GetDirectoryName(Application.dataPath) + "/VERSION";
         private string _pathDevelopVersion = Path.GetDirectoryName(Application.dataPath) + "/tmp/local_version";
+
         public void UpdateVersion()
         {
             _version = GetVersionFromFile();
+            UpgradeVersionPopWindow.OpenWindow();
         }
         
+        /// <summary>
+        /// Creates a VERSION file. If repository does not have a tag then it will create a tag and a file.
+        /// </summary>
         public void CreateNewVersionFile()
         {
              GitHande.RunGitCommand("tbs unity version v0.1.0");
 
             UnityEngine.Debug.Log("<b><color=green> File was created.</color></b>");
+
+            UpgradeVersionPopWindow.OpenWindow();
+        }
+
+        public string GetVersion()
+        {
+            _version = GetVersionFromFile();
+            return _version;
+        }
+
+        public void SetVersion(string version)
+        {
+            _version = version;
+            PlayerSettings.bundleVersion = _version;
+            UnityEngine.Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
+            FileReaderWriter.WriteToFile(_pathVersion,_version);
         }
 
         private string GetVersionFromFile()
@@ -57,6 +78,7 @@ namespace Custom.Tool.AutoBuild
                 else
                 {
                     UnityEngine.Debug.LogError("<b><color=red> Develop version file does not exists </color></b>");
+                    fileVersion = GitHande.GetGitOutput("git describe");
                 }
             }
             else

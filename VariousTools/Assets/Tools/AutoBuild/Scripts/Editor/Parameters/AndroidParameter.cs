@@ -32,7 +32,7 @@ namespace Custom.Tool.AutoBuild
 
 
         [BoxGroup("Android/Develop")]
-       // [OnValueChanged("OnValueChange")]
+        [OnValueChanged("OnValueChange")]
         public bool DevelopmentBuild;
         [BoxGroup("Android/Develop"), ShowIf("DevelopmentBuild")]
         public bool AutoconnectProfiler;
@@ -62,11 +62,28 @@ namespace Custom.Tool.AutoBuild
         public override void OnPrepare()
         {
             base.OnPrepare();
+            PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
+            //PackageName = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
+            //ScriptingBackend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android);
+
+            EditorUserBuildSettings.androidBuildSystem = BuildSystem;
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture;
+            EditorUserBuildSettings.development = DevelopmentBuild;
         }
 
         protected override void OnValueChange()
         {
-            
+            OnPrepare();
+            if(DevelopmentBuild)
+            {
+                SplitApplicationBinary = false;
+            }
+            else
+            {
+                AutoconnectProfiler = false;
+                ScriptDebugging = false;
+                ScriptsOnlyBuild = false;
+            }
         }
     }
 }
