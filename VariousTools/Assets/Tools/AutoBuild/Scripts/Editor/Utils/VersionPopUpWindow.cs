@@ -32,7 +32,6 @@ namespace Custom.Tool
         private void ButtonYes()
         {
             VersionManager.Instance.CreateNewVersionFile();
-            UnityEngine.Debug.Log("<b><color=green> File was created.</color></b>");
             GetWindow<VersionPopUpWindow>().Close();
         }
         [ButtonGroup("Group"), LabelText("No"), GUIColor(1, 0, 0)]

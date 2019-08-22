@@ -40,6 +40,8 @@ namespace Custom.Tool.AutoBuild
         public void CreateNewVersionFile()
         {
              GitHande.RunGitCommand("tbs unity version v0.1.0");
+
+            UnityEngine.Debug.Log("<b><color=green> File was created.</color></b>");
         }
 
         private string GetVersionFromFile()
