@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Custom.Tool.AutoBuild
@@ -32,12 +33,16 @@ namespace Custom.Tool.AutoBuild
 
         public virtual void OnEnable()
         {
-
+            Version = PlayerSettings.bundleVersion;
+            CompanyName = PlayerSettings.companyName;
+            ProductName = PlayerSettings.productName;
         }
 
         public virtual void OnPrepare()
         {
-
+            Version = PlayerSettings.bundleVersion;
+            PlayerSettings.companyName = CompanyName;
+            PlayerSettings.productName = ProductName;
         }
 
         /// <summary>
@@ -45,7 +50,9 @@ namespace Custom.Tool.AutoBuild
         /// </summary>
         protected virtual void OnValueChange()
         {
-
+            PlayerSettings.bundleVersion = Version;
+            PlayerSettings.companyName = CompanyName;
+            PlayerSettings.productName = ProductName;
         }
     }    
 }

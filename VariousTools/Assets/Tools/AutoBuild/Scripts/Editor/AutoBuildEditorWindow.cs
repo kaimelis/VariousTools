@@ -12,17 +12,12 @@ namespace Custom.Tool.AutoBuild
     public class AutoBuildEditorWindow : OdinMenuEditorWindow
     {
         /// <summary>
-        /// 
-        /// </summary>
-        private static AutoBuildEditorWindow _window;
-
-        /// <summary>
         /// Method that gets called by Menu and created main window
         /// </summary>
         [MenuItem("Custom/AutoBuild")]
         private static void OpenEditorWindow()
         {
-            _window = GetWindow<AutoBuildEditorWindow>();
+            AutoBuildEditorWindow _window = GetWindow<AutoBuildEditorWindow>();
             _window.Show();
             _window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
             _window.titleContent = new GUIContent("Automatic Build Tool");
@@ -38,10 +33,29 @@ namespace Custom.Tool.AutoBuild
             tree.DefaultMenuStyle.IconSize = 28.00f;
             tree.Config.DrawSearchToolbar = true;
             tree.DefaultMenuStyle = OdinMenuStyle.TreeViewStyle;
-            tree.Add("Menu Style", tree.DefaultMenuStyle);
-
+            OdinMenuStyle style =
+            new OdinMenuStyle()
+            {
+                Height = 23,
+                Offset = 20.00f,
+                IndentAmount = 15.00f,
+                IconSize = 16.00f,
+                IconOffset = 0.00f,
+                NotSelectedIconAlpha = 0.85f,
+                IconPadding = 0.1f,
+                TriangleSize = 16.00f,
+                TrianglePadding = 0.00f,
+                AlignTriangleLeft = true,
+                Borders = true,
+                BorderPadding = 0.00f,
+                BorderAlpha = 0.32f,
+                SelectedColorDarkSkin = new Color(0.736f, 0.101f, 0.038f, 1.000f),
+                SelectedColorLightSkin = new Color(0.736f, 0.101f, 0.038f, 1.000f)
+            };
+            tree.DefaultMenuStyle = style;
             tree.Add("Android Parameters", new AndroidParameter());
-            tree.EnumerateTree().AddThumbnailIcons();
+            tree.Add("iOS Parameters", new IOSParameter());
+            tree.Add("Windows Parameters", new WindowsParameter());
             return tree;
         }
 
@@ -58,20 +72,25 @@ namespace Custom.Tool.AutoBuild
                 if (selected != null)
                     GUILayout.Label(selected.Name);
 
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Switch Platform")))
+                {
+                    BuildManager.Instance.SwitchPlatform(selected.Name);
+                }
+
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Preapre for a build")))
+                {
+                    //update version
+                    VersionManager.Instance.UpdateVersion();
+                }
+
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Make a build", "Button used to make a build for current selected platform")))
                 {
-                    _window = GetWindow<AutoBuildEditorWindow>();
-                    _window.Close();
+                    Close();
                     BuildManager.Instance.Build();
-                   // ManageBuild.Instance.MakeBuild();
                 }
             }
             SirenixEditorGUI.EndHorizontalToolbar();
         }
-
-
-
-
     }
 }
 #endif
