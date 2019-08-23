@@ -54,9 +54,14 @@ namespace Custom.Tool.AutoBuild
         {
             GitHande.RunGitCommand("tbs unity version v0.1.1");
 
-            Debug.Log("<b><color=green> File was created.</color></b>");
+            if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
+            {
+                Debug.Log("<b><color=red> File was not created. Is your repo clean?</color></b>");
+                return;
+            }
 
             UpgradeVersionPopWindow.OpenWindow();
+            Debug.Log("<b><color=green> File was created.</color></b>");
         }
 
         public string GetSuggestionVersion()
