@@ -12,7 +12,9 @@ namespace Custom.Tool
     public class UpgradeVersionPopWindow : OdinEditorWindow
     {
         private static UpgradeVersionPopWindow _window;
-        private string text;
+        private string _version;
+        private string _suggestionVersion;
+        private string _text;
         public static void OpenWindow()
         {
             _window = GetWindow<UpgradeVersionPopWindow>();
@@ -24,17 +26,19 @@ namespace Custom.Tool
         protected override void OnEnable()
         {
             base.OnEnable();
-            text = VersionManager.Instance.GetVersion();
+            _version = VersionManager.Instance.GetVersion();
+            _suggestionVersion = VersionManager.Instance.GetSuggestionVersion();
+            
         }
 
         [OnInspectorGUI]
         private void CreateLabel()
         {
             EditorGUILayout.LabelField("What is the next version?", SirenixGUIStyles.BoldLabelCentered);
-            EditorGUILayout.LabelField("Current version : " + text, SirenixGUIStyles.CenteredBlackMiniLabel);
-            EditorGUILayout.LabelField("Suggested version : " + text, SirenixGUIStyles.CenteredGreyMiniLabel);
+            EditorGUILayout.LabelField("Current version : " + _version, SirenixGUIStyles.CenteredBlackMiniLabel);
+            EditorGUILayout.LabelField("Suggested version : " + _suggestionVersion, SirenixGUIStyles.CenteredGreyMiniLabel);
             GUILayout.Space(30);
-            text = EditorGUILayout.TextField(text, SirenixGUIStyles.CenteredTextField);
+            _text = EditorGUILayout.TextField(_suggestionVersion, SirenixGUIStyles.CenteredTextField);
             
             GUILayout.Space(10);
         }
@@ -42,7 +46,7 @@ namespace Custom.Tool
         [ButtonGroup("Group"), LabelText("Save"), GUIColor(0, 1, 0)]
         private void Save()
         {
-            VersionManager.Instance.SetVersion(text);
+            VersionManager.Instance.SetVersion(_text);
             GetWindow<UpgradeVersionPopWindow>().Close();
         }
         [ButtonGroup("Group"), LabelText("Cancel"), GUIColor(1, 0, 0)]

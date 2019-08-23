@@ -14,24 +14,21 @@ namespace Custom.Tool.AutoBuild
         /// Version of the project that represent a tag in source control
         /// </summary>
         [BoxGroup("General", Order = 3), OnValueChanged("OnValueChange")]
-        [OdinSerialize]
         public string Version;
 
         /// <summary>
         /// 
         /// </summary>
         [BoxGroup("General", Order = 3), OnValueChanged("OnValueChange")]
-        [OdinSerialize]
         public string CompanyName;
 
         /// <summary>
         /// 
         /// </summary>
         [BoxGroup("General", Order = 3), OnValueChanged("OnValueChange")]
-        [OdinSerialize]
         public string ProductName;
 
-        public virtual void OnEnable()
+        public virtual void OnStart()
         {
             Version = PlayerSettings.bundleVersion;
             CompanyName = PlayerSettings.companyName;
@@ -40,7 +37,7 @@ namespace Custom.Tool.AutoBuild
 
         public virtual void OnPrepare()
         {
-            Version = PlayerSettings.bundleVersion;
+            PlayerSettings.bundleVersion = Version;
             PlayerSettings.companyName = CompanyName;
             PlayerSettings.productName = ProductName;
         }

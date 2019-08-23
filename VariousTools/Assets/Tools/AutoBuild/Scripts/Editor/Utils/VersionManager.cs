@@ -1,11 +1,9 @@
-﻿#if UNITY_EDITOR
-using Sirenix.OdinInspector;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
-using UnityEditor;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
-
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 namespace Custom.Tool.AutoBuild
 {
     public class VersionManager
@@ -27,18 +25,13 @@ namespace Custom.Tool.AutoBuild
         }
         #endregion
         private string _version;
+        private string _versionSuggestion;
         private string _developmentVersion;
         private string _iosVersion;
 
         private string _pathVersion = Path.GetDirectoryName(Application.dataPath) + "/VERSION";
         private string _pathDevelopVersion = Path.GetDirectoryName(Application.dataPath) + "/tmp/local_version";
-
-        public void UpdateVersion()
-        {
-            _version = GetVersionFromFile();
-            UpgradeVersionPopWindow.OpenWindow();
-        }
-        
+       
         /// <summary>
         /// Creates a VERSION file. If repository does not have a tag then it will create a tag and a file.
         /// </summary>
@@ -51,9 +44,21 @@ namespace Custom.Tool.AutoBuild
             UpgradeVersionPopWindow.OpenWindow();
         }
 
+        public string GetSuggestionVersion()
+        {
+            string suggestionVersion = GetVersion();
+            _versionSuggestion = SplitVersion(suggestionVersion);
+            return _versionSuggestion;
+        }
+
         public string GetVersion()
         {
-            _version = GetVersionFromFile();
+            _version = PlayerSettings.bundleVersion;
+
+            if (_version == GetVersionFromFile())
+                _version = PlayerSettings.bundleVersion;
+            else
+                _version = PlayerSettings.bundleVersion;
             return _version;
         }
 
@@ -61,8 +66,39 @@ namespace Custom.Tool.AutoBuild
         {
             _version = version;
             PlayerSettings.bundleVersion = _version;
-            UnityEngine.Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
+            Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
             FileReaderWriter.WriteToFile(_pathVersion,_version);
+        }
+
+        private string SplitVersion(string version)
+        {
+            if (version == "" || !version.Contains("v"))
+                version = PlayerSettings.bundleVersion;
+
+            //v0 1 0
+            //v0.1.0
+            //v0 1 0b1
+            var splitVersionDot = version.Split('.');
+            var splitMajorV = splitVersionDot[0].Split('v');
+            int buildVersion;
+            int buildVersionMinor;
+            var splitBuildB = splitVersionDot[2].Split('b');
+            //need to check if there is b to split from or not
+            
+            if (splitBuildB.Length > 1)
+            {
+                buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
+                buildVersion = Convert.ToInt32(splitBuildB[0]);
+                version = "v" + splitMajorV[0] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
+            }
+            else
+            {
+                buildVersion = Convert.ToInt32(splitVersionDot[2]) + 1;
+                version = "v" + splitMajorV[0] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
+            }
+
+            Debug.Log("<b><color=green> Version </color></b> = " + version);
+            return version;
         }
 
         private string GetVersionFromFile()
@@ -73,11 +109,11 @@ namespace Custom.Tool.AutoBuild
                 if (FileReaderWriter.CheckIfFileExists(_pathDevelopVersion))
                 {
                     fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
-                    UnityEngine.Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
+                    Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError("<b><color=red> Develop version file does not exists </color></b>");
+                    Debug.LogError("<b><color=red> Develop version file does not exists </color></b>");
                     fileVersion = GitHande.GetGitOutput("git describe");
                 }
             }
@@ -86,11 +122,11 @@ namespace Custom.Tool.AutoBuild
                 if (FileReaderWriter.CheckIfFileExists(_pathVersion))
                 {
                     fileVersion = FileReaderWriter.ReadLineFromFile(_pathVersion);
-                    UnityEngine.Debug.Log("<b><color=blue> Version is : </color></b>" + fileVersion);
+                    Debug.Log("<b><color=blue> Version is : </color></b>" + fileVersion);
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError("<b><color=red> Version file does not exists. </color></b>");
+                    Debug.LogError("<b><color=red> Version file does not exists. </color></b>");
                     VersionPopUpWindow.OpenWindow();
                 }
             }
@@ -98,4 +134,4 @@ namespace Custom.Tool.AutoBuild
         }
     }
 }
-#endif
+

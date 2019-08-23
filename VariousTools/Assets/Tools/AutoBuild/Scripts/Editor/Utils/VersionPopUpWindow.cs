@@ -18,7 +18,6 @@ namespace Custom.Tool
             _window.position = GUIHelper.GetEditorWindowRect().AlignCenter(270, 200);
             _window.titleContent = new GUIContent("Pop Up window", EditorIcons.RulerRect.Active);
             _window.Show();
-
         }
 
         [OnInspectorGUI]

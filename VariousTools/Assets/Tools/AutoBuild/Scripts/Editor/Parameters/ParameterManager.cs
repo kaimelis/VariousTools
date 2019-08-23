@@ -1,18 +1,43 @@
-﻿using System.Collections;
+﻿#if UNITY_EDITOR
 using System.Collections.Generic;
-using UnityEngine;
-
-public class ParameterManager : MonoBehaviour
+namespace Custom.Tool.AutoBuild
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ParameterManager
     {
-        
-    }
+        private static ParameterManager _instance;
+        private List<Parameter> _allParameters = new List<Parameter>();
 
-    // Update is called once per frame
-    void Update()
-    {
+        public static ParameterManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new ParameterManager();
+                return _instance;
+            }
+            private set
+            {
+                _instance = new ParameterManager();
+            }
+        }
         
+
+        public void RegisterParameter(Parameter param)
+        {
+            if (param != null)
+                _allParameters.Add(param);
+        }
+
+
+        public void OnUpgradeAllParameters()
+        {
+            if (_allParameters.Count == 0)
+                return;
+            foreach (var item in _allParameters)
+            {
+                item?.OnPrepare();
+            }
+        }
     }
 }
+#endif

@@ -5,8 +5,6 @@ using Sirenix.Utilities.Editor;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Sirenix.OdinInspector;
-
 namespace Custom.Tool.AutoBuild
 {
     public class AutoBuildEditorWindow : OdinMenuEditorWindow
@@ -80,7 +78,8 @@ namespace Custom.Tool.AutoBuild
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Upgrade Version")))
                 {
                     //update version
-                    VersionManager.Instance.UpdateVersion();
+                    // VersionManager.Instance.UpdateVersion();
+                    UpgradeVersionPopWindow.OpenWindow();
                 }
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Make a build", "Button used to make a build for current selected platform")))

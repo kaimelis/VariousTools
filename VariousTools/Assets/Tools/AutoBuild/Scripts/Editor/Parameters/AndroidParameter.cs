@@ -43,12 +43,13 @@ namespace Custom.Tool.AutoBuild
 
         public AndroidParameter ()
         {
-            OnEnable();
+            OnStart();
+            ParameterManager.Instance.RegisterParameter(this);
         }
 
-        public override void OnEnable()
+        public override void OnStart()
         {
-            base.OnEnable();
+            base.OnStart();
 
             BundleVersionCode = PlayerSettings.Android.bundleVersionCode;
             PackageName = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
@@ -73,7 +74,7 @@ namespace Custom.Tool.AutoBuild
 
         protected override void OnValueChange()
         {
-            OnPrepare();
+            base.OnValueChange();
             if(DevelopmentBuild)
             {
                 SplitApplicationBinary = false;
