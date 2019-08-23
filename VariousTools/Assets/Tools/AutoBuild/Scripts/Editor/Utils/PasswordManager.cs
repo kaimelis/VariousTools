@@ -18,7 +18,7 @@ namespace Custom.Tool.AutoBuild
         public static string GetPassword(string name)
         {
             //check if password is already created
-            if(PasswordExists(name))
+            if(PlayerSettings.Android.useCustomKeystore == true && PasswordExists(name))
             {
                 //Get Password
                 string pass = FileReaderWriter.ReadLineFromFile(Directory.GetCurrentDirectory() + "/tmp/" + name);

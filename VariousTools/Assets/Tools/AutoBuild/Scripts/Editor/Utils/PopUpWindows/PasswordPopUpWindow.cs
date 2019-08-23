@@ -13,17 +13,29 @@ namespace Custom.Tool
     {
         private string _keystorePassword;
         private string _keyAliasPassword;
+        private static bool hasKeystore = true;
         public static void OpenWindow()
         {
+            hasKeystore = PlayerSettings.Android.useCustomKeystore;
             PasswordPopUpWindow _window = GetWindow<PasswordPopUpWindow>();
             _window.position = GUIHelper.GetEditorWindowRect().AlignCenter(400, 200);
-            _window.titleContent = new GUIContent("Pop Up window", EditorIcons.CharGraph.Active);
+            _window.titleContent = new GUIContent("Password Pop Up window", EditorIcons.CharGraph.Active);
             _window.Show();
         }
 
         [OnInspectorGUI]
         private void CreateLabel()
         {
+
+            if (!hasKeystore)
+            {
+                GUIStyle s = new GUIStyle(SirenixGUIStyles.BoldTitleCentered);
+                s.normal.textColor = Color.red;
+                s.fontSize = 18;
+                EditorGUILayout.LabelField("Keystore is not present.", s);
+                GUILayout.Space(30);
+                return;
+            }
             EditorGUILayout.LabelField("Type in passwords", SirenixGUIStyles.BoldLabelCentered);
             GUILayout.Space(30);
             _keystorePassword = EditorGUILayout.PasswordField("Key Store Password",_keystorePassword);
@@ -36,6 +48,8 @@ namespace Custom.Tool
         [ButtonGroup("Group"), LabelText("Save"), GUIColor(0, 1, 0)]
         private void Save()
         {
+            if (!hasKeystore)
+                return;
             PasswordManager.SavePassword(_keystorePassword, "KEYSTORE_PASSWORD");
             PasswordManager.SavePassword(_keyAliasPassword, "ALIAS_PASSWORD");
             ParameterManager.Instance.UpdateAndroidPasswords(_keystorePassword, _keyAliasPassword);
@@ -43,6 +57,7 @@ namespace Custom.Tool
             _keystorePassword = "";           
             GetWindow<PasswordPopUpWindow>().Close();
         }
+
         [ButtonGroup("Group"), LabelText("Cancel"), GUIColor(1, 0, 0)]
         private void Cancel()
         {

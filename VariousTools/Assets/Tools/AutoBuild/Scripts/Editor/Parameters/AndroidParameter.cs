@@ -64,13 +64,18 @@ namespace Custom.Tool.AutoBuild
             DevelopmentBuild = EditorUserBuildSettings.development;
             SetSettings();
 
-            if (PlayerSettings.Android.keyaliasPass == "" && PlayerSettings.Android.keystorePass == "")
+            if ((PlayerSettings.Android.keyaliasPass == "" || PlayerSettings.Android.keystorePass == "" ) && PlayerSettings.Android.useCustomKeystore == true)
             {
                 string pass = PasswordManager.GetPassword("ALIAS_PASSWORD");
                 PlayerSettings.Android.keystorePass = pass;
                 string alias = PasswordManager.GetPassword("KEYSTORE_PASSWORD");
                 PlayerSettings.Android.keyaliasPass = alias;
                 Debug.Log("<b><color=red> Password has been updated.</color></b>");
+            }
+            else if(PlayerSettings.Android.useCustomKeystore == false)
+            {
+                Debug.Log("Custom key false");
+                PasswordManager.GetPassword("");
             }
         }
 

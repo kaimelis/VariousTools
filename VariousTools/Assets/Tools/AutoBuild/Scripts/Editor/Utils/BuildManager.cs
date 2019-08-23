@@ -23,6 +23,8 @@ namespace Custom.Tool.AutoBuild
 
         public void Build()
         {
+
+
              BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), "/Builds/" + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.EnableHeadlessMode);
         }
 
@@ -30,8 +32,7 @@ namespace Custom.Tool.AutoBuild
         {
             _buildPath = pPath;
         }
-
-
+        
         public void SwitchPlatform(string platform)
         {
             if(platform.Contains("Android"))
@@ -47,8 +48,6 @@ namespace Custom.Tool.AutoBuild
                 EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
             }
         }
-
-
 
         private string[] GetScenePaths()
         {

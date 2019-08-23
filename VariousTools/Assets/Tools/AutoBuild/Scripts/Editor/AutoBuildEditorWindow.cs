@@ -77,8 +77,6 @@ namespace Custom.Tool.AutoBuild
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Upgrade Version")))
                 {
-                    //update version
-                    // VersionManager.Instance.UpdateVersion();
                     UpgradeVersionPopWindow.OpenWindow();
                 }
 
