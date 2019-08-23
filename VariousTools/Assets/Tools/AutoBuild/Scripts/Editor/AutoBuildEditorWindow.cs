@@ -77,7 +77,8 @@ namespace Custom.Tool.AutoBuild
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Upgrade Version")))
                 {
-                    UpgradeVersionPopWindow.OpenWindow();
+                    // UpgradeVersionPopWindow.OpenWindow();
+                    VersionManager.Instance.UpdateVersion();
                 }
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Make a build", "Button used to make a build for current selected platform")))

@@ -29,15 +29,30 @@ namespace Custom.Tool.AutoBuild
         private string _developmentVersion;
         private string _iosVersion;
 
-        private string _pathVersion = Path.GetDirectoryName(Application.dataPath) + "/VERSION";
-        private string _pathDevelopVersion = Path.GetDirectoryName(Application.dataPath) + "/tmp/local_version";
+        private string _pathVersion = Directory.GetCurrentDirectory() + "/VERSION";
+        private string _pathDevelopVersion = Directory.GetCurrentDirectory() + "/tmp/local_version";
        
+        public void UpdateVersion()
+        {
+            //check if we have version file
+            if(FileReaderWriter.CheckIfFileExists(_pathVersion))
+            {
+                UpgradeVersionPopWindow.OpenWindow();
+                Debug.Log("Version file exists");
+            }
+            else
+            {
+                VersionPopUpWindow.OpenWindow();
+                Debug.LogError("Version file doesn't exists");
+            }
+        }
+
         /// <summary>
         /// Creates a VERSION file. If repository does not have a tag then it will create a tag and a file.
         /// </summary>
         public void CreateNewVersionFile()
         {
-             GitHande.RunGitCommand("tbs unity version v0.1.0");
+            GitHande.RunGitCommand("tbs unity version v0.1.0");
 
             Debug.Log("<b><color=green> File was created.</color></b>");
 
