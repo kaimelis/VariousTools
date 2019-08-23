@@ -52,7 +52,7 @@ namespace Custom.Tool.AutoBuild
         /// </summary>
         public void CreateNewVersionFile()
         {
-            GitHande.RunGitCommand("tbs unity version v0.1.0");
+            GitHande.RunGitCommand("tbs unity version v0.1.1");
 
             Debug.Log("<b><color=green> File was created.</color></b>");
 
