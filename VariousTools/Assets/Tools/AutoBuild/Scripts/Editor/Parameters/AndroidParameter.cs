@@ -11,19 +11,23 @@ namespace Custom.Tool.AutoBuild
     public class AndroidParameter : Parameter
     {
         [BoxGroup("Android")]
+        [OnValueChanged("OnValueChange")]
         public int BundleVersionCode;
 
         [BoxGroup("Android")]
+        [OnValueChanged("OnValueChange")]
         public bool SplitApplicationBinary;
 
         [BoxGroup("Android")]
+        [OnValueChanged("OnValueChange")]
         public string PackageName;
 
         [BoxGroup("Android")]
+        [OnValueChanged("OnValueChange")]
         public AndroidBuildSystem BuildSystem;
 
         [BoxGroup("Android")]
-        [OdinSerialize]
+        [OnValueChanged("OnValueChange")]
         public AndroidArchitecture AndroidArchitecture;
 
         [BoxGroup("Android")]
@@ -43,14 +47,14 @@ namespace Custom.Tool.AutoBuild
 
         public AndroidParameter ()
         {
-            OnStart();
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                return;
+            OnStartSetup();
             ParameterManager.Instance.RegisterParameter(this);
         }
 
-        public override void OnStart()
+        private void OnStartSetup()
         {
-            base.OnStart();
-
             BundleVersionCode = PlayerSettings.Android.bundleVersionCode;
             PackageName = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
             ScriptingBackend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android);
@@ -58,24 +62,44 @@ namespace Custom.Tool.AutoBuild
             BuildSystem = EditorUserBuildSettings.androidBuildSystem;
             AndroidArchitecture = PlayerSettings.Android.targetArchitectures;
             DevelopmentBuild = EditorUserBuildSettings.development;
+            SetSettings();
+
+            if (PlayerSettings.Android.keyaliasPass == "" && PlayerSettings.Android.keystorePass == "")
+            {
+                string pass = PasswordManager.GetPassword("ALIAS_PASSWORD");
+                PlayerSettings.Android.keystorePass = pass;
+                string alias = PasswordManager.GetPassword("KEYSTORE_PASSWORD");
+                PlayerSettings.Android.keyaliasPass = alias;
+                Debug.Log("<b><color=red> Password has been updated.</color></b>");
+            }
         }
 
-        public override void OnPrepare()
+        public void UpdatePassword(string key, string alias)
         {
-            base.OnPrepare();
-            PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
-            //PackageName = PlayerSettings.GetApplicationIdentifier(BuildTargetGroup.Android);
-            //ScriptingBackend = PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android);
+            PlayerSettings.Android.keystorePass = key;
+            PlayerSettings.Android.keyaliasPass = alias;
+        }
 
-            EditorUserBuildSettings.androidBuildSystem = BuildSystem;
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture;
-            EditorUserBuildSettings.development = DevelopmentBuild;
+        public override void SetSettings()
+        {
+            base.SetSettings();
+            PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
+        }
+
+        public override void PrepareSettings()
+        {
+            base.PrepareSettings();
+
+            BundleVersionCode += 1;
+            PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
+            Debug.Log("<b><color=red> Bundle version has been updated.</color></b>");
         }
 
         protected override void OnValueChange()
         {
             base.OnValueChange();
-            if(DevelopmentBuild)
+            
+            if (DevelopmentBuild)
             {
                 SplitApplicationBinary = false;
             }
@@ -85,6 +109,7 @@ namespace Custom.Tool.AutoBuild
                 ScriptDebugging = false;
                 ScriptsOnlyBuild = false;
             }
+            
         }
     }
 }

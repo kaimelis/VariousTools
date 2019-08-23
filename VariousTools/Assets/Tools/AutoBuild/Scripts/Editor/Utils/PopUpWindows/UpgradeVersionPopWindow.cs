@@ -28,7 +28,8 @@ namespace Custom.Tool
             base.OnEnable();
             _version = VersionManager.Instance.GetVersion();
             _suggestionVersion = VersionManager.Instance.GetSuggestionVersion();
-            
+            _text = _suggestionVersion;
+
         }
 
         [OnInspectorGUI]
@@ -37,8 +38,9 @@ namespace Custom.Tool
             EditorGUILayout.LabelField("What is the next version?", SirenixGUIStyles.BoldLabelCentered);
             EditorGUILayout.LabelField("Current version : " + _version, SirenixGUIStyles.CenteredBlackMiniLabel);
             EditorGUILayout.LabelField("Suggested version : " + _suggestionVersion, SirenixGUIStyles.CenteredGreyMiniLabel);
+           
             GUILayout.Space(30);
-            _text = EditorGUILayout.TextField(_suggestionVersion, SirenixGUIStyles.CenteredTextField);
+            _text = EditorGUILayout.TextField(_text, SirenixGUIStyles.CenteredTextField);
             
             GUILayout.Space(10);
         }

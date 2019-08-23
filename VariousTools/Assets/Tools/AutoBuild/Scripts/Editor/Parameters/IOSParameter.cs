@@ -9,7 +9,16 @@ namespace Custom.Tool.AutoBuild
 {
     public class IOSParameter : Parameter
     {
+        public IOSParameter()
+        {
+            SetSettings();
+            ParameterManager.Instance.RegisterParameter(this);
+        }
 
+        public override void SetSettings()
+        {
+            base.SetSettings();
+        }
     }
 }
 #endif

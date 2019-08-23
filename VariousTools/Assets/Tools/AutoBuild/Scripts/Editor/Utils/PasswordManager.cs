@@ -3,9 +3,10 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
-namespace Custom.Tool
+namespace Custom.Tool.AutoBuild
 {
     public static class PasswordManager
     {
@@ -13,8 +14,42 @@ namespace Custom.Tool
         static readonly string SaltKey = "S@LT&KEY";
         static readonly string VIKey = "@1B2c3D4e5F6g7H8";
 
-        
 
+        public static string GetPassword(string name)
+        {
+            //check if password is already created
+            if(PasswordExists(name))
+            {
+                //Get Password
+                string pass = FileReaderWriter.ReadLineFromFile(Directory.GetCurrentDirectory() + "/tmp/" + name);
+                return Decrypt(pass);
+            }
+            else
+            {
+                //if not then do this shit
+                PasswordPopUpWindow.OpenWindow();
+                //return the password
+                return "";
+            }
+        }
+
+        public static void SavePassword(string pass, string name)
+        {
+            string encryptKey = Encrypt(pass);
+            string path = Directory.GetCurrentDirectory() + "/tmp";
+
+            FileReaderWriter.CreateFile(path, name);
+            FileReaderWriter.WriteToFile(path + "/" + name, encryptKey);
+
+            encryptKey = "";
+        }
+
+        private static bool PasswordExists(string name)
+        {
+            if (FileReaderWriter.CheckIfFileExists(Directory.GetCurrentDirectory() + "/tmp/" + name))
+                return true;
+            return false;
+        }
 
         private static string Encrypt(string plainText)
         {

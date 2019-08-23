@@ -13,7 +13,7 @@ namespace Custom.Tool.AutoBuild
         /// Method that gets called by Menu and created main window
         /// </summary>
         [MenuItem("Custom/AutoBuild")]
-        private static void OpenEditorWindow()
+        public static void OpenEditorWindow()
         {
             AutoBuildEditorWindow _window = GetWindow<AutoBuildEditorWindow>();
             _window.Show();

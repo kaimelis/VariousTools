@@ -1,5 +1,7 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
+using UnityEditor;
+
 namespace Custom.Tool.AutoBuild
 {
     public class ParameterManager
@@ -29,14 +31,30 @@ namespace Custom.Tool.AutoBuild
         }
 
 
-        public void OnUpgradeAllParameters()
+        public void PrepareSettings()
         {
             if (_allParameters.Count == 0)
                 return;
             foreach (var item in _allParameters)
             {
-                item?.OnPrepare();
+                item?.PrepareSettings();
             }
+        }
+
+        public void UpdateGeneralSettings()
+        {
+            if (_allParameters.Count == 0)
+                return;
+            foreach (var item in _allParameters)
+            {
+                item?.SetSettings();
+            }
+        }
+
+        public void UpdateAndroidPasswords(string key, string alias)
+        {
+            PlayerSettings.Android.keystorePass = key;
+            PlayerSettings.Android.keyaliasPass = alias;
         }
     }
 }

@@ -42,6 +42,24 @@ namespace Custom.Tool
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="name"></param>
+        public static void CreateFile(string path, string name)
+        {
+            if (!Directory.Exists(path) || !File.Exists(path + "/" + name))
+            {
+                Directory.CreateDirectory(path);
+                FileInfo fi = new FileInfo(path +"/" +name);
+                using (StreamWriter sw = fi.CreateText())
+                {
+                    sw.Close();
+                }
+            }
+        }
+
+        /// <summary>
         /// Function that handels deletion of the file
         /// </summary>
         /// <param name="path"></param>

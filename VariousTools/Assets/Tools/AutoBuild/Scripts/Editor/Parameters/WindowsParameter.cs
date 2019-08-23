@@ -9,6 +9,16 @@ namespace Custom.Tool.AutoBuild
 {
     public class WindowsParameter : Parameter
     {
+        public WindowsParameter()
+        {
+            SetSettings();
+            ParameterManager.Instance.RegisterParameter(this);
+        }
+
+        public override void SetSettings()
+        {
+            base.SetSettings();
+        }
 
     }
 }

@@ -28,18 +28,16 @@ namespace Custom.Tool.AutoBuild
         [BoxGroup("General", Order = 3), OnValueChanged("OnValueChange")]
         public string ProductName;
 
-        public virtual void OnStart()
+        public virtual void SetSettings()
         {
             Version = PlayerSettings.bundleVersion;
             CompanyName = PlayerSettings.companyName;
             ProductName = PlayerSettings.productName;
         }
 
-        public virtual void OnPrepare()
+        public virtual void PrepareSettings()
         {
-            PlayerSettings.bundleVersion = Version;
-            PlayerSettings.companyName = CompanyName;
-            PlayerSettings.productName = ProductName;
+            Version = PlayerSettings.bundleVersion;
         }
 
         /// <summary>
@@ -50,6 +48,7 @@ namespace Custom.Tool.AutoBuild
             PlayerSettings.bundleVersion = Version;
             PlayerSettings.companyName = CompanyName;
             PlayerSettings.productName = ProductName;
+            ParameterManager.Instance.UpdateGeneralSettings();
         }
     }    
 }

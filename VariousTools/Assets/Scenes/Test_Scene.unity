@@ -237,7 +237,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 47.2
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -262,8 +262,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511991729}
-  m_LocalRotation: {x: 0.01869849, y: 0.6697047, z: 0.016875884, w: -0.7422003}
-  m_LocalPosition: {x: 7.6427374, y: 1.3317331, z: 0.10046506}
+  m_LocalRotation: {x: -0.12717086, y: 0.85885316, z: -0.2575175, w: -0.42412695}
+  m_LocalPosition: {x: 1.6485155, y: 7.119988, z: 19.319355}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -366,7 +366,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-6144
+  m_Name: pb_Mesh-1166
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

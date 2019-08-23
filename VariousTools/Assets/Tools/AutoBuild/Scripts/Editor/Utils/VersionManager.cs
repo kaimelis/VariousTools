@@ -39,7 +39,7 @@ namespace Custom.Tool.AutoBuild
         {
              GitHande.RunGitCommand("tbs unity version v0.1.0");
 
-            UnityEngine.Debug.Log("<b><color=green> File was created.</color></b>");
+            Debug.Log("<b><color=green> File was created.</color></b>");
 
             UpgradeVersionPopWindow.OpenWindow();
         }
@@ -66,8 +66,11 @@ namespace Custom.Tool.AutoBuild
         {
             _version = version;
             PlayerSettings.bundleVersion = _version;
+
             Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
             FileReaderWriter.WriteToFile(_pathVersion,_version);
+
+            ParameterManager.Instance.PrepareSettings();
         }
 
         private string SplitVersion(string version)
@@ -75,6 +78,7 @@ namespace Custom.Tool.AutoBuild
             if (version == "" || !version.Contains("v"))
                 version = PlayerSettings.bundleVersion;
 
+            Debug.Log("<b><color=blue> Current version is: </color></b> = " + version);
             //v0 1 0
             //v0.1.0
             //v0 1 0b1
@@ -97,7 +101,7 @@ namespace Custom.Tool.AutoBuild
                 version = "v" + splitMajorV[0] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
             }
 
-            Debug.Log("<b><color=green> Version </color></b> = " + version);
+            Debug.Log("<b><color=green> Suggested version is: </color></b> = " + version);
             return version;
         }
 
@@ -122,7 +126,7 @@ namespace Custom.Tool.AutoBuild
                 if (FileReaderWriter.CheckIfFileExists(_pathVersion))
                 {
                     fileVersion = FileReaderWriter.ReadLineFromFile(_pathVersion);
-                    Debug.Log("<b><color=blue> Version is : </color></b>" + fileVersion);
+                    //Debug.Log("<b><color=blue> Version is : </color></b>" + fileVersion);
                 }
                 else
                 {
