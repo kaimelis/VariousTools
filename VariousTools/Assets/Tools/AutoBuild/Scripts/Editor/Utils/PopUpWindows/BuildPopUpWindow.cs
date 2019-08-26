@@ -7,7 +7,6 @@ using UnityEditor;
 using UnityEngine;
 using Custom.Tool.AutoBuild;
 
-
 namespace Custom.Tool
 {
     public class BuildPopUpWindow : OdinEditorWindow

@@ -192,18 +192,9 @@ namespace Custom.Tool.AutoBuild
             string fileVersion = "";
             if(EditorUserBuildSettings.development || development)
             {
-                if (FileReaderWriter.CheckIfFileExists(_pathDevelopVersion))
-                {
-                    fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
-                    Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
-                }
-                else
-                {
-                    Debug.LogError("<b><color=red> Develop version file does not exists </color></b>");
-                    GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
-                    fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
-                    Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
-                }
+                GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
+                fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
+                Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
             }
             else
             {

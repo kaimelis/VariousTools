@@ -8,9 +8,6 @@ namespace Custom.Tool.AutoBuild
 {
     public class BuildManager
     {
-        private string _buildName = "unknown";
-        private string _buildPath = Directory.GetCurrentDirectory() + "/Builds/";
-        private string _nameBuildNoExt = "";
         private static BuildManager _instance;
         public static BuildManager Instance
         {
@@ -26,28 +23,28 @@ namespace Custom.Tool.AutoBuild
         public void Build()
         {
             if(!EditorUserBuildSettings.development)
-                 _buildName = VersionManager.Instance.GetVersion();
+                 BuildName = VersionManager.Instance.GetVersion();
             else
-                _buildName = VersionManager.Instance.GetVersion(true);
+                BuildName = VersionManager.Instance.GetVersion(true);
 
             BuildPopUpWindow.OpenWindow();
         }
 
         public void MakeABuild()
         {
-            _buildPath += _buildName + "/";
+            BuildPath += BuildName + "/";
 
             if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
-                _buildName += ".apk";
+                BuildName += ".apk";
             else
-                _buildName += ".exe";
+                BuildName += ".exe";
 
-            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
-            if (File.Exists(_buildPath + _buildName) && build)
+            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), BuildPath + BuildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
+            if (File.Exists(BuildPath + BuildName) && build)
             {
                 //check if windows and not development
                 if(!EditorUserBuildSettings.development)
-                   // GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
+                   GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
 
                 Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
                 return;
@@ -55,17 +52,10 @@ namespace Custom.Tool.AutoBuild
             Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
 
         }
-        public string BuildPath
-        {
-            get { return _buildPath; }
-            set { _buildPath = value; }
-        }
+        public string BuildPath { get; set; } = Directory.GetCurrentDirectory() + "/Builds/";
 
-        public string BuildName
-        {
-            get { return _buildName; }
-            set { _buildName = value; }
-        }
+        public string BuildName { get; set; } = "unknown";
+        public string NameBuildNoExt { get; set; } = "";
 
         public void SwitchPlatform(string platform)
         {
