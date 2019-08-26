@@ -35,16 +35,20 @@ namespace Custom.Tool.AutoBuild
        
         public void UpdateVersion()
         {
+            if(!EditorUserBuildSettings.development)
+            {
+                string output = GitHande.GetGitOutput("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare");
+            }
+
             //check if we have version file
             if(FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
                 UpgradeVersionPopWindow.OpenWindow();
-                Debug.Log("Version file exists");
             }
             else
             {
                 VersionPopUpWindow.OpenWindow();
-                Debug.LogError("Version file doesn't exists");
+                Debug.LogError("Version file doesn't exists. Please create a new one.");
             }
         }
 

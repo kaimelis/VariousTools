@@ -38,7 +38,6 @@ namespace Custom.Tool
 
 #endif
             ProcessStartInfo procStartInfo = new ProcessStartInfo(@"C:/Program Files/Git/git-bash.exe");
-           // ProcessStartInfo procStartInfo = new ProcessStartInfo("git");
             procStartInfo.UseShellExecute = false;
             procStartInfo.CreateNoWindow = true;
             procStartInfo.ErrorDialog = false;
@@ -51,6 +50,7 @@ namespace Custom.Tool
 
         public static string GetGitOutput(string command)
         {
+            string output = "";
             try
             {
                 var process = new Process
@@ -65,12 +65,6 @@ namespace Custom.Tool
                     }
                 };
                 process.Start();
-
-                while (!process.StandardOutput.EndOfStream)
-                {
-                    var line = process.StandardOutput.ReadLine();
-                    return line;
-                }
                 process.WaitForExit();
             }
             catch (System.Exception)
@@ -78,7 +72,7 @@ namespace Custom.Tool
 
                 throw;
             }
-            return "";
+            return output;
         }
     }
 }

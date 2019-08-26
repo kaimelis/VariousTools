@@ -50,7 +50,8 @@ namespace Custom.Tool.AutoBuild
                 Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
                 return;
             }
-            Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
+            else
+                Debug.LogError("<b><color=red> Build failed. Is your repo clean? </color></b>");
 
         }
         public string BuildPath { get; set; } = Directory.GetCurrentDirectory() + "/Builds/";
