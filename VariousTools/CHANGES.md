@@ -1,3 +1,13 @@
+## Version v0.1.1b1:
+ - *Bash command fix
+ - Adding project settings
+ - Adding a new version to the project
+ - Added a new version to thebuild
+ - [AUTO] ProjectSettings and VERSION with CHNAGES.md updated. v0.1.3
+ - Cleaned ccode and made fixed developers build
+ - Added developers version
+ - [AUTO] ProjectSettings and VERSION with CHNAGES.md updated. v0.1.2
+
 ## Version v0.1.3:
  - Cleaned ccode and made fixed developers build
  - Added developers version
