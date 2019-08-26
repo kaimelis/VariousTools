@@ -25,12 +25,15 @@ namespace Custom.Tool.AutoBuild
         public void Build()
         {
             _buildName = VersionManager.Instance.GetVersion();
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
+                _buildName += ".apk";
+            else
+                _buildName += ".exe";
             BuildPopUpWindow.OpenWindow();
         }
 
         public void MakeABuild()
         {
-            //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
             BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
 
             if (File.Exists(_buildPath + _buildName) && build)
