@@ -1,26 +1,12 @@
-## Version v0.1.1:
+## Version v0.1.2:
+ - Added a check for platform so it changes the build extension accordingly
+
+## Version v0.1.1
+ - Added a check for platform so it changes the build extension accordingly
+ - [AUTO] ProjectSettings and VERSION with CHNAGES.md updated. v0.1.1
  - changes
  - Preparing a git build
  - tools
- - few addons
- - Testing a version change.
- - removing vesrion and change file
- - [AUTO] VERSION with CHNAGES.md updated. v0.1.0
- - something useless pushed because my terminal command failed.
- - [AUTO] VERSION with CHNAGES.md updated. v0.1.0
- - Updated how version gets called. Before it made no sense.
- - Passsword is max failproof
- - Fixed password encryption, decryption, then tested automatic password fill.
- - Added improved versioning to the autobuild
- - Added password encryption and decryption
- - Moved version file to place where my code can reach
- - [AUTO] VERSION with CHNAGES.md updated. v0.1.0
- - Update VersionManager
- - testing  a version
- - added version and changelog
- - version changes push
-
-## Version v0.1.0
  - few addons
  - Testing a version change.
  - removing vesrion and change file
