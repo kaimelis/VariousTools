@@ -14,6 +14,7 @@ namespace Custom.Tool
         private static UpgradeVersionPopWindow _window;
         private string _version;
         private string _suggestionVersion;
+        private string _projectSettingsVersion;
         private string _text;
         public static void OpenWindow()
         {
@@ -28,6 +29,7 @@ namespace Custom.Tool
             base.OnEnable();
             _version = VersionManager.Instance.GetVersion();
             _suggestionVersion = VersionManager.Instance.GetSuggestionVersion();
+            _projectSettingsVersion = PlayerSettings.bundleVersion;
             _text = _suggestionVersion;
 
         }
@@ -36,12 +38,16 @@ namespace Custom.Tool
         private void CreateLabel()
         {
             EditorGUILayout.LabelField("What is the next version?", SirenixGUIStyles.BoldLabelCentered);
-            EditorGUILayout.LabelField("Current version : " + _version, SirenixGUIStyles.CenteredBlackMiniLabel);
+            EditorGUILayout.LabelField("File version : " + _version, SirenixGUIStyles.CenteredBlackMiniLabel);
+
+            GUIStyle s = new GUIStyle(SirenixGUIStyles.CenteredBlackMiniLabel);
+            s.normal.textColor = Color.green;
+            EditorGUILayout.LabelField("Project settings version : " + _projectSettingsVersion, s);
+
             EditorGUILayout.LabelField("Suggested version : " + _suggestionVersion, SirenixGUIStyles.CenteredGreyMiniLabel);
            
             GUILayout.Space(30);
-            _text = EditorGUILayout.TextField(_text, SirenixGUIStyles.CenteredTextField);
-            
+            _text = EditorGUILayout.TextField(_text, SirenixGUIStyles.CenteredTextField);           
             GUILayout.Space(10);
         }
 

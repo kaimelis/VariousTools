@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -52,7 +53,8 @@ namespace Custom.Tool.AutoBuild
         /// </summary>
         public void CreateNewVersionFile()
         {
-            GitHande.RunGitCommand("tbs unity version v0.1.1");
+            //GitHande.RunGitCommand("tbs unity version v0.1.1");
+            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.1");
 
             if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
@@ -60,6 +62,8 @@ namespace Custom.Tool.AutoBuild
                 return;
             }
 
+            //check the version of file and compare to current in unity
+            
             UpgradeVersionPopWindow.OpenWindow();
             Debug.Log("<b><color=green> File was created.</color></b>");
         }
@@ -74,11 +78,13 @@ namespace Custom.Tool.AutoBuild
         public string GetVersion()
         {
             _version = PlayerSettings.bundleVersion;
-
-            if (_version == GetVersionFromFile())
+            string fileVersion = GetVersionFromFile();
+            if (_version == fileVersion)
                 _version = PlayerSettings.bundleVersion;
             else
-                _version = PlayerSettings.bundleVersion;
+            {
+                _version = GetHigherVersion(PlayerSettings.bundleVersion,fileVersion);
+            }
             return _version;
         }
 
@@ -91,6 +97,55 @@ namespace Custom.Tool.AutoBuild
             FileReaderWriter.WriteToFile(_pathVersion,_version);
 
             ParameterManager.Instance.PrepareSettings();
+        }
+
+        private string GetHigherVersion(string version1, string version2)
+        {
+            #region version1
+            var splitVersion1Dot = version1.Split('.');
+            var splitVersion1Major = splitVersion1Dot[0].Split('v');
+            string majorVersion1 = splitVersion1Major[1];
+            string minorVersion1 = splitVersion1Dot[1];
+            var splitBuildVersion1 = splitVersion1Dot[2].Split('b');
+            string buildVersion1 = splitBuildVersion1[0];
+            string buildVersion1Beta = "";
+            if (splitBuildVersion1.Length > 1)
+                buildVersion1Beta = splitBuildVersion1[1];
+            #endregion
+
+            #region version2
+            var splitVersion2Dot = version2.Split('.');
+            var splitVersion2Major = splitVersion2Dot[0].Split('v');
+            string majorVersion2 = splitVersion2Major[1];
+            string minorVersion2 = splitVersion2Dot[1];
+            var splitBuildVersion2 = splitVersion2Dot[2].Split('b');
+            string buildVersion2 = splitBuildVersion2[0];
+            string buildVersion2Beta = "";
+            if (splitBuildVersion2.Length > 1)
+                buildVersion2Beta = splitBuildVersion2[1];
+            #endregion
+
+            if (Convert.ToInt32(majorVersion1) > Convert.ToInt32(majorVersion2))
+            {
+                return version1;
+            }
+            else if (Convert.ToInt32(minorVersion1) > Convert.ToInt32(minorVersion2))
+            {
+                return version1;
+            }
+            else if (Convert.ToInt32(buildVersion1) > Convert.ToInt32(buildVersion2))
+            {
+                return version1;
+            }
+            else if (buildVersion1Beta != "" && buildVersion2Beta != "")
+            {
+                if (Convert.ToInt32(buildVersion1Beta) > Convert.ToInt32(buildVersion2Beta))
+                    return version1;
+                else
+                    return version2;
+            }
+            else
+                return version2;
         }
 
         private string SplitVersion(string version)
@@ -113,12 +168,12 @@ namespace Custom.Tool.AutoBuild
             {
                 buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
                 buildVersion = Convert.ToInt32(splitBuildB[0]);
-                version = "v" + splitMajorV[0] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
+                version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
             }
             else
             {
                 buildVersion = Convert.ToInt32(splitVersionDot[2]) + 1;
-                version = "v" + splitMajorV[0] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
+                version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
             }
 
             Debug.Log("<b><color=green> Suggested version is: </color></b> = " + version);
@@ -154,7 +209,10 @@ namespace Custom.Tool.AutoBuild
                     VersionPopUpWindow.OpenWindow();
                 }
             }
-            return fileVersion;
+
+            
+            //clean up the end of the line
+            return fileVersion.Trim();
         }
     }
 }

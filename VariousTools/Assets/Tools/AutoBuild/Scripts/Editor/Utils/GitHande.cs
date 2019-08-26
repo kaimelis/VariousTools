@@ -34,7 +34,11 @@ namespace Custom.Tool
 
         public static void RunGitCommand(string command)
         {
+#if UNITY_OSX
+
+#endif
             ProcessStartInfo procStartInfo = new ProcessStartInfo(@"C:/Program Files/Git/git-bash.exe");
+           // ProcessStartInfo procStartInfo = new ProcessStartInfo("git");
             procStartInfo.UseShellExecute = false;
             procStartInfo.CreateNoWindow = true;
             procStartInfo.ErrorDialog = false;

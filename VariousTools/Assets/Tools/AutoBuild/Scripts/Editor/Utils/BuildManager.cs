@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Custom.Tool.AutoBuild
     public class BuildManager
     {
         private string _buildName = "unknown";
-        private string _buildPath = "";
+        private string _buildPath = Directory.GetCurrentDirectory() + "/Builds/";
         private static BuildManager _instance;
         public static BuildManager Instance
         {
@@ -24,13 +25,38 @@ namespace Custom.Tool.AutoBuild
         public void Build()
         {
 
+            ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/
+            _buildName = VersionManager.Instance.GetVersion();
+            BuildPopUpWindow.OpenWindow();
+        }
 
-             BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), "/Builds/" + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.EnableHeadlessMode);
+        public void MakeABuild()
+        {
+            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), "/Builds/" + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.EnableHeadlessMode);
+
+            if(File.Exists(_buildPath + _buildName) && build)
+            {
+                //check if windows and not development
+                if (!EditorUserBuildSettings.development)
+                    GitHande.RunGitCommand("c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production ");
+
+                Debug.Log("<b><color=green> Build has been sucesfully made </b></color>");
+            }
         }
 
         public void SetBuildPath(string pPath)
         {
             _buildPath = pPath;
+        }
+
+        public string GetBuildPath()
+        {
+            return _buildPath;
+        }
+
+        public string GetBuildName()
+        {
+            return _buildName;
         }
         
         public void SwitchPlatform(string platform)
