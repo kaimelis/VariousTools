@@ -32,16 +32,20 @@ namespace Custom.Tool.AutoBuild
 
         public void MakeABuild()
         {
-            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), "/Builds/" + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.EnableHeadlessMode);
+            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
+            // BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
 
-            if(File.Exists(_buildPath + _buildName) && build)
-            {
-                //check if windows and not development
-                if (!EditorUserBuildSettings.development)
-                    GitHande.RunGitCommand("c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production ");
+            //if (File.Exists(_buildPath + _buildName) && build)
+            //{
+            //    //check if windows and not development
 
-                Debug.Log("<b><color=green> Build has been sucesfully made </b></color>");
-            }
+            //    GitHande.RunGitCommand("c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity pause");
+
+            //    Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
+            //    return;
+            //}
+            //Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
+
         }
 
         public void SetBuildPath(string pPath)

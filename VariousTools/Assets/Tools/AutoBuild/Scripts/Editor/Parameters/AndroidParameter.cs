@@ -47,8 +47,8 @@ namespace Custom.Tool.AutoBuild
 
         public AndroidParameter ()
         {
-            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
-                return;
+           // if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+              //  return;
             OnStartSetup();
             ParameterManager.Instance.RegisterParameter(this);
         }
