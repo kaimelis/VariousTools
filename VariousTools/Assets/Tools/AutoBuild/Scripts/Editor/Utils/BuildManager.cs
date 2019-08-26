@@ -22,7 +22,8 @@ namespace Custom.Tool.AutoBuild
 
         public void Build()
         {
-            if(!EditorUserBuildSettings.development)
+            BuildPath = Directory.GetCurrentDirectory() + "/Builds/";
+            if (!EditorUserBuildSettings.development)
                  BuildName = VersionManager.Instance.GetVersion();
             else
                 BuildName = VersionManager.Instance.GetVersion(true);
