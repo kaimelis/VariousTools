@@ -45,7 +45,7 @@ namespace Custom.Tool.AutoBuild
             {
                 //check if windows and not development
                 if(!EditorUserBuildSettings.development)
-                  // GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
+                   GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
 
                 Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
                 return;
