@@ -26,7 +26,7 @@ namespace Custom.Tool.AutoBuild
         #endregion
         private string _version;
         private string _versionSuggestion;
-        private string _iosVersion;
+        private string _actualVersion;
         private string _bundleCode;
         private string _pathVersion = Directory.GetCurrentDirectory() + "/VERSION";
         private string _pathDevelopVersion = Directory.GetCurrentDirectory() + "/tmp/local_version";
@@ -86,13 +86,11 @@ namespace Custom.Tool.AutoBuild
             else
             {
                 _version = PlayerSettings.bundleVersion;
+                if (!_version.Contains("v"))
+                    _version = GetVersionFromFile();
                 string fileVersion = GetVersionFromFile();
-                if (_version == fileVersion)
-                    _version = PlayerSettings.bundleVersion;
-                else
-                {
+                if (_version != fileVersion)
                     _version = GetHigherVersion(PlayerSettings.bundleVersion, fileVersion);
-                }
             }
             return _version;
         }
@@ -104,15 +102,25 @@ namespace Custom.Tool.AutoBuild
 
             Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
-                FileReaderWriter.WriteToFile(_pathVersion,_version);
+                FileReaderWriter.WriteToFile(_pathVersion, _version);
+            else
+                FileReaderWriter.WriteToFile(_pathVersion, _actualVersion);
+
 
             ParameterManager.Instance.PrepareSettings();
         }
 
         public string GetBundleCode()
         {
-            var bundle = PlayerSettings.bundleVersion.Split('b');
-            return bundle[1];
+            if(_bundleCode == null)
+            {
+                string version = GetVersionFromFile();
+                var splitMajor = version.Split('.');
+                var splitBuild = splitMajor[2].Split('b');
+                _bundleCode = splitBuild[1];
+                Debug.Log(_bundleCode);
+            }
+            return _bundleCode;
         }
 
         private string GetHigherVersion(string version1, string version2)
@@ -166,8 +174,9 @@ namespace Custom.Tool.AutoBuild
 
         private string SplitVersion(string version)
         {
+            Debug.Log(version);
             if (version == "" || !version.Contains("v"))
-                version = PlayerSettings.bundleVersion;
+                version = GetVersionFromFile();
 
             Debug.Log("<b><color=blue> Current version is: </color></b> = " + version);
             //v0 1 0
@@ -178,14 +187,14 @@ namespace Custom.Tool.AutoBuild
             int buildVersion;
             int buildVersionMinor;
             var splitBuildB = splitVersionDot[2].Split('b');
-            //need to check if there is b to split from or not
-            
+            //need to check if there is b to split from or not  
             if (splitBuildB.Length > 1)
             {
                 buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
                 buildVersion = Convert.ToInt32(splitBuildB[0]);
                 version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
                 _bundleCode = buildVersionMinor.ToString();
+                _actualVersion = version;
             }
             else
             {
