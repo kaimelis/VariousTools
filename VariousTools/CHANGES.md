@@ -1,3 +1,7 @@
+## Version v0.1.3:
+ - Cleaned ccode and made fixed developers build
+ - Added developers version
+
 ## Version v0.1.2:
 
 
