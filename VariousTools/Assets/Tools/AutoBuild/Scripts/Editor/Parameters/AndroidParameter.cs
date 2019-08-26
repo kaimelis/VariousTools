@@ -47,8 +47,6 @@ namespace Custom.Tool.AutoBuild
 
         public AndroidParameter ()
         {
-           // if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
-              //  return;
             OnStartSetup();
             ParameterManager.Instance.RegisterParameter(this);
         }
@@ -64,7 +62,7 @@ namespace Custom.Tool.AutoBuild
             DevelopmentBuild = EditorUserBuildSettings.development;
             SetSettings();
 
-            if ((PlayerSettings.Android.keyaliasPass == "" || PlayerSettings.Android.keystorePass == "" ) && PlayerSettings.Android.useCustomKeystore == true)
+            if ((PlayerSettings.Android.keyaliasPass == "" || PlayerSettings.Android.keystorePass == "" ) && PlayerSettings.Android.useCustomKeystore == true && EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
             {
                 string pass = PasswordManager.GetPassword("ALIAS_PASSWORD");
                 PlayerSettings.Android.keystorePass = pass;
@@ -114,7 +112,23 @@ namespace Custom.Tool.AutoBuild
                 ScriptDebugging = false;
                 ScriptsOnlyBuild = false;
             }
-            
+            SetupVariables();
+        }
+
+        private void SetupVariables()
+        {
+            //DEVELOPMENT
+            EditorUserBuildSettings.development = DevelopmentBuild;
+            EditorUserBuildSettings.connectProfiler = AutoconnectProfiler;
+            EditorUserBuildSettings.allowDebugging = ScriptDebugging;
+            EditorUserBuildSettings.buildScriptsOnly = ScriptsOnlyBuild;
+
+            PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
+            PlayerSettings.Android.useAPKExpansionFiles = SplitApplicationBinary;
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingBackend);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, PackageName);
+            EditorUserBuildSettings.androidBuildSystem = BuildSystem;
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture;
         }
     }
 }

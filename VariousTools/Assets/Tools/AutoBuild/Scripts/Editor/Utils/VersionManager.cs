@@ -54,7 +54,7 @@ namespace Custom.Tool.AutoBuild
         public void CreateNewVersionFile()
         {
             //GitHande.RunGitCommand("tbs unity version v0.1.1");
-            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.1");
+            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
 
             if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
@@ -75,15 +75,22 @@ namespace Custom.Tool.AutoBuild
             return _versionSuggestion;
         }
 
-        public string GetVersion()
+        public string GetVersion(bool development = false)
         {
-            _version = PlayerSettings.bundleVersion;
-            string fileVersion = GetVersionFromFile();
-            if (_version == fileVersion)
-                _version = PlayerSettings.bundleVersion;
+            if(development)
+            {
+                _version = GetVersionFromFile(true);
+            }
             else
             {
-                _version = GetHigherVersion(PlayerSettings.bundleVersion,fileVersion);
+                _version = PlayerSettings.bundleVersion;
+                string fileVersion = GetVersionFromFile();
+                if (_version == fileVersion)
+                    _version = PlayerSettings.bundleVersion;
+                else
+                {
+                    _version = GetHigherVersion(PlayerSettings.bundleVersion, fileVersion);
+                }
             }
             return _version;
         }
@@ -180,10 +187,10 @@ namespace Custom.Tool.AutoBuild
             return version;
         }
 
-        private string GetVersionFromFile()
+        private string GetVersionFromFile(bool development = false)
         {
             string fileVersion = "";
-            if(EditorUserBuildSettings.development)
+            if(EditorUserBuildSettings.development || development)
             {
                 if (FileReaderWriter.CheckIfFileExists(_pathDevelopVersion))
                 {
@@ -193,7 +200,9 @@ namespace Custom.Tool.AutoBuild
                 else
                 {
                     Debug.LogError("<b><color=red> Develop version file does not exists </color></b>");
-                    fileVersion = GitHande.GetGitOutput("git describe");
+                    GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
+                    fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
+                    Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
                 }
             }
             else

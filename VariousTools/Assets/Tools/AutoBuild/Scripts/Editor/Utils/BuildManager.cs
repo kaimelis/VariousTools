@@ -10,6 +10,7 @@ namespace Custom.Tool.AutoBuild
     {
         private string _buildName = "unknown";
         private string _buildPath = Directory.GetCurrentDirectory() + "/Builds/";
+        private string _nameBuildNoExt = "";
         private static BuildManager _instance;
         public static BuildManager Instance
         {
@@ -24,23 +25,29 @@ namespace Custom.Tool.AutoBuild
 
         public void Build()
         {
-            _buildName = VersionManager.Instance.GetVersion();
-            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
-                _buildName += ".apk";
+            if(!EditorUserBuildSettings.development)
+                 _buildName = VersionManager.Instance.GetVersion();
             else
-                _buildName += ".exe";
+                _buildName = VersionManager.Instance.GetVersion(true);
+
             BuildPopUpWindow.OpenWindow();
         }
 
         public void MakeABuild()
         {
-            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
+            _buildPath += _buildName + "/";
 
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
+                _buildName += ".apk";
+            else
+                _buildName += ".exe";
+
+            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
             if (File.Exists(_buildPath + _buildName) && build)
             {
                 //check if windows and not development
                 if(!EditorUserBuildSettings.development)
-                    GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
+                   // GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
 
                 Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
                 return;
@@ -48,22 +55,18 @@ namespace Custom.Tool.AutoBuild
             Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
 
         }
-
-        public void SetBuildPath(string pPath)
+        public string BuildPath
         {
-            _buildPath = pPath;
+            get { return _buildPath; }
+            set { _buildPath = value; }
         }
 
-        public string GetBuildPath()
+        public string BuildName
         {
-            return _buildPath;
+            get { return _buildName; }
+            set { _buildName = value; }
         }
 
-        public string GetBuildName()
-        {
-            return _buildName;
-        }
-        
         public void SwitchPlatform(string platform)
         {
             if(platform.Contains("Android"))
