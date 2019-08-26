@@ -24,27 +24,25 @@ namespace Custom.Tool.AutoBuild
 
         public void Build()
         {
-
-            ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/
             _buildName = VersionManager.Instance.GetVersion();
             BuildPopUpWindow.OpenWindow();
         }
 
         public void MakeABuild()
         {
-            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
-            // BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
+            //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
+            BuildReport build = BuildPipeline.BuildPlayer(GetScenePaths(), _buildPath + _buildName, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
 
-            //if (File.Exists(_buildPath + _buildName) && build)
-            //{
-            //    //check if windows and not development
+            if (File.Exists(_buildPath + _buildName) && build)
+            {
+                //check if windows and not development
+                if(!EditorUserBuildSettings.development)
+                    GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity production");
 
-            //    GitHande.RunGitCommand("c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity pause");
-
-            //    Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
-            //    return;
-            //}
-            //Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
+                Debug.Log("<b><color=green> Build has been sucesfully made </color></b>");
+                return;
+            }
+            Debug.LogError("<b><color=red> Build has failed to be done </color></b>");
 
         }
 
