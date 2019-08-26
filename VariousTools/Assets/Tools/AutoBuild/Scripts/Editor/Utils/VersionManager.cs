@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
-using System.Text.RegularExpressions;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -27,9 +26,8 @@ namespace Custom.Tool.AutoBuild
         #endregion
         private string _version;
         private string _versionSuggestion;
-        private string _developmentVersion;
         private string _iosVersion;
-
+        private string _bundleCode;
         private string _pathVersion = Directory.GetCurrentDirectory() + "/VERSION";
         private string _pathDevelopVersion = Directory.GetCurrentDirectory() + "/tmp/local_version";
        
@@ -105,9 +103,16 @@ namespace Custom.Tool.AutoBuild
             PlayerSettings.bundleVersion = _version;
 
             Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
-            FileReaderWriter.WriteToFile(_pathVersion,_version);
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
+                FileReaderWriter.WriteToFile(_pathVersion,_version);
 
             ParameterManager.Instance.PrepareSettings();
+        }
+
+        public string GetBundleCode()
+        {
+            var bundle = PlayerSettings.bundleVersion.Split('b');
+            return bundle[1];
         }
 
         private string GetHigherVersion(string version1, string version2)
@@ -180,13 +185,17 @@ namespace Custom.Tool.AutoBuild
                 buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
                 buildVersion = Convert.ToInt32(splitBuildB[0]);
                 version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
+                _bundleCode = buildVersionMinor.ToString();
             }
             else
             {
                 buildVersion = Convert.ToInt32(splitVersionDot[2]) + 1;
                 version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
+                _bundleCode = "1";
             }
-
+            
+            if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
+                version = splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
             Debug.Log("<b><color=green> Suggested version is: </color></b> = " + version);
             return version;
         }
