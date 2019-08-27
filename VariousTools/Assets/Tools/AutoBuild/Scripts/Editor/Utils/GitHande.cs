@@ -6,32 +6,6 @@ namespace Custom.Tool
 {
     public static class GitHande
     {
-        //public static void RunGitCommand(string command)
-        //{
-        //    try
-        //    {
-        //        var process = new Process
-        //        {
-        //            StartInfo = new ProcessStartInfo
-        //            {
-        //                FileName = @"C:/Program Files/Git/git-bash.exe",
-        //                Arguments = command,
-        //                UseShellExecute = false,
-        //                CreateNoWindow = true
-
-        //            }
-        //        };
-        //        process.Start();
-        //        process.WaitForExit();
-
-        //    }
-        //    catch (System.Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
-
         public static void RunGitCommand(string command)
         {
 #if UNITY_OSX

@@ -35,7 +35,8 @@ namespace Custom.Tool.AutoBuild
         {
             if(!EditorUserBuildSettings.development)
             {
-                string output = GitHande.GetGitOutput("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare");
+                ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare
+                GitHande.RunGitCommand("tbs unity prepare");
             }
 
             //check if we have version file
@@ -56,7 +57,8 @@ namespace Custom.Tool.AutoBuild
         public void CreateNewVersionFile()
         {
             //GitHande.RunGitCommand("tbs unity version v0.1.1");
-            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
+            //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
+            GitHande.RunGitCommand("tbs unity version v0.1.0");
 
             if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
@@ -214,7 +216,8 @@ namespace Custom.Tool.AutoBuild
             string fileVersion = "";
             if(EditorUserBuildSettings.development || development)
             {
-                GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
+                //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
+                GitHande.RunGitCommand("tbs unity develop");
                 fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
                 Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
             }
