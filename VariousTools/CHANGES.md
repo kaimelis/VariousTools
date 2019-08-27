@@ -1,4 +1,11 @@
 ## Version v0.1.1b1:
+ - version change
+ - Mini changes to the ios build and so on
+ - Updated version of iOS. Hope it works later
+ - Preparing ios build
+ - new version file with other mini fixes
+
+## Version v0.1.1b1:
  - *Bash command fix
  - Adding project settings
  - Adding a new version to the project
