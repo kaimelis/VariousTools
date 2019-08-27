@@ -56,8 +56,8 @@ namespace Custom.Tool.AutoBuild
         /// </summary>
         public void CreateNewVersionFile()
         {
-            GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
-            //GitHande.RunGitCommand("tbs unity version v0.1.0");
+            //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
+            GitHande.RunGitCommand("tbs unity version v0.1.0");
 
             if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
