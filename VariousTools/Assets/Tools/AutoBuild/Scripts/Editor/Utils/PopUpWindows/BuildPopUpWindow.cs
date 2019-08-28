@@ -9,7 +9,7 @@ using Custom.Tool.AutoBuild;
 
 namespace Custom.Tool
 {
-    public class BuildPopUpWindow : OdinEditorWindow
+    public class BuildPopUpWindow : APopUpWindow
     {
         private static BuildPopUpWindow _window;
         private static string _buildName;

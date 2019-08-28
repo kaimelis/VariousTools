@@ -9,7 +9,7 @@ using Custom.Tool.AutoBuild;
 
 namespace Custom.Tool
 {
-    public class UpgradeVersionPopWindow : OdinEditorWindow
+    public class UpgradeVersionPopWindow : APopUpWindow
     {
         private static UpgradeVersionPopWindow _window;
         private string _version;

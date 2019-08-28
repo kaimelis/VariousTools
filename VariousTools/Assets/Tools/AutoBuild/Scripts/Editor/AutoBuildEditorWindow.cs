@@ -12,7 +12,7 @@ namespace Custom.Tool.AutoBuild
         /// <summary>
         /// Method that gets called by Menu and created main window
         /// </summary>
-        [MenuItem("Custom/AutoBuild")]
+        [MenuItem("TBS/AutoBuild")]
         public static void OpenEditorWindow()
         {
             AutoBuildEditorWindow _window = GetWindow<AutoBuildEditorWindow>();
@@ -77,7 +77,6 @@ namespace Custom.Tool.AutoBuild
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("Upgrade Version")))
                 {
-                    // UpgradeVersionPopWindow.OpenWindow();
                     VersionManager.Instance.UpdateVersion();
                 }
 

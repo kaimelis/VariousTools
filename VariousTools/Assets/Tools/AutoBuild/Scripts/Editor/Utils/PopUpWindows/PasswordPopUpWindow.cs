@@ -9,11 +9,12 @@ using Custom.Tool.AutoBuild;
 
 namespace Custom.Tool
 {
-    public class PasswordPopUpWindow : OdinEditorWindow
+    public class PasswordPopUpWindow : APopUpWindow
     {
         private string _keystorePassword;
         private string _keyAliasPassword;
         private static bool hasKeystore = true;
+
         public static void OpenWindow()
         {
             hasKeystore = PlayerSettings.Android.useCustomKeystore;
@@ -26,7 +27,6 @@ namespace Custom.Tool
         [OnInspectorGUI]
         private void CreateLabel()
         {
-
             if (!hasKeystore)
             {
                 GUIStyle s = new GUIStyle(SirenixGUIStyles.BoldTitleCentered);

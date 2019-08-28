@@ -31,6 +31,9 @@ namespace Custom.Tool.AutoBuild
         private string _pathVersion = Directory.GetCurrentDirectory() + "/VERSION";
         private string _pathDevelopVersion = Directory.GetCurrentDirectory() + "/tmp/local_version";
        
+        /// <summary>
+        /// When a button update version is clicked this function is called that upgrades the version.
+        /// </summary>
         public void UpdateVersion()
         {
             if(!EditorUserBuildSettings.development)
@@ -92,12 +95,13 @@ namespace Custom.Tool.AutoBuild
             else
             {
                 _version = PlayerSettings.bundleVersion;
-                if (!_version.Contains("v"))
+                if (!_version.Contains("v") && _version != "")
                     _version = GetVersionFromFile();
                 string fileVersion = GetVersionFromFile();
                 if (_version != fileVersion)
                     _version = GetHigherVersion(PlayerSettings.bundleVersion, fileVersion);
             }
+
             return _version;
         }
 
@@ -118,15 +122,15 @@ namespace Custom.Tool.AutoBuild
 
         public string GetBundleCode()
         {
-            if(_bundleCode == null)
-            {
-                string version = GetVersionFromFile();
-                var splitMajor = version.Split('.');
-                var splitBuild = splitMajor[2].Split('b');
-                _bundleCode = splitBuild[1];
-                Debug.Log(_bundleCode);
-            }
-            return _bundleCode;
+            //if(_bundleCode == null)
+            //{
+            //    string version = GetVersionFromFile();
+            //    var splitMajor = version.Split('.');
+            //    var splitBuild = splitMajor[2].Split('b');
+            //    _bundleCode = splitBuild[1];
+            //    Debug.Log(_bundleCode);
+            //}
+            return "";
         }
 
         private string GetHigherVersion(string version1, string version2)

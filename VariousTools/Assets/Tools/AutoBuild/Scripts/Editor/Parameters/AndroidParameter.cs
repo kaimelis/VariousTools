@@ -62,7 +62,9 @@ namespace Custom.Tool.AutoBuild
             DevelopmentBuild = EditorUserBuildSettings.development;
             SetSettings();
 
-            if ((PlayerSettings.Android.keyaliasPass == "" || PlayerSettings.Android.keystorePass == "" ) && PlayerSettings.Android.useCustomKeystore == true && EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
+                return;
+            if ((PlayerSettings.Android.keyaliasPass == "" || PlayerSettings.Android.keystorePass == "" ) && PlayerSettings.Android.useCustomKeystore == true)
             {
                 string pass = PasswordManager.GetPassword("ALIAS_PASSWORD");
                 PlayerSettings.Android.keystorePass = pass;
