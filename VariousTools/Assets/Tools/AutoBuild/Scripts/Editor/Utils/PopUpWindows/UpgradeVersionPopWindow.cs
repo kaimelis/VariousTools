@@ -41,7 +41,7 @@ namespace Custom.Tool
             EditorGUILayout.LabelField("File version : " + _version, SirenixGUIStyles.CenteredBlackMiniLabel);
 
             GUIStyle s = new GUIStyle(SirenixGUIStyles.CenteredBlackMiniLabel);
-            s.normal.textColor = Color.green;
+            s.normal.textColor = Color.magenta;
             EditorGUILayout.LabelField("Project settings version : " + _projectSettingsVersion, s);
 
             EditorGUILayout.LabelField("Suggested version : " + _suggestionVersion, SirenixGUIStyles.CenteredGreyMiniLabel);

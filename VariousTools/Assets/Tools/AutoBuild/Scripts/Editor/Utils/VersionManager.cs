@@ -40,15 +40,20 @@ namespace Custom.Tool.AutoBuild
             }
 
             //check if we have version file
-            if(FileReaderWriter.CheckIfFileExists(_pathVersion))
+            if(!EditorUserBuildSettings.development)
             {
-                UpgradeVersionPopWindow.OpenWindow();
+                if (FileReaderWriter.CheckIfFileExists(_pathVersion))
+                {
+                    UpgradeVersionPopWindow.OpenWindow();
+                }
+                else
+                {
+                    VersionPopUpWindow.OpenWindow();
+                    Debug.LogError("Version file doesn't exists. Please create a new one.");
+                }
             }
             else
-            {
-                VersionPopUpWindow.OpenWindow();
-                Debug.LogError("Version file doesn't exists. Please create a new one.");
-            }
+                Debug.LogError("Sorry you are in develop. Can't upgrade the version.");
         }
 
         /// <summary>
@@ -66,8 +71,8 @@ namespace Custom.Tool.AutoBuild
             }
 
             //check the version of file and compare to current in unity
-            
-            UpgradeVersionPopWindow.OpenWindow();
+            if(!EditorUserBuildSettings.development)
+                UpgradeVersionPopWindow.OpenWindow();
             Debug.Log("<b><color=green> File was created.</color></b>");
         }
 

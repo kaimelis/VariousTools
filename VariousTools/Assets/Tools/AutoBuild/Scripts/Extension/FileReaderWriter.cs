@@ -18,9 +18,12 @@ namespace Custom.Tool
         /// <returns></returns>
         public static void WriteToFile(string path, string text)
         {
-            if (File.Exists(path))
+            if(text != "" && path != "")
             {
-                File.WriteAllText(path, text);
+                if (File.Exists(path))
+                {
+                    File.WriteAllText(path, text);
+                }
             }
         }
 
