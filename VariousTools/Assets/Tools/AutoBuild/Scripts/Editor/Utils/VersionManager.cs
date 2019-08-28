@@ -1,9 +1,9 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.IO;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
+
 namespace Custom.Tool.AutoBuild
 {
     public class VersionManager
@@ -259,4 +259,4 @@ namespace Custom.Tool.AutoBuild
         }
     }
 }
-
+#endif
