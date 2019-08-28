@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using Sirenix.OdinInspector;
+using UnityEditor;
 
 namespace Custom.Tool.AutoBuild
 {
@@ -7,6 +8,10 @@ namespace Custom.Tool.AutoBuild
     {
         [BoxGroup("iOS")]
         public string BundleCode;
+
+        [BoxGroup("iOS"), OnValueChanged("OnValueChange")]
+        public bool SplashScreen;
+    
         public IOSParameter()
         {
             SetSettings();
@@ -17,6 +22,7 @@ namespace Custom.Tool.AutoBuild
         {
             base.SetSettings();
             BundleCode = VersionManager.Instance.GetBundleCode();
+            SplashScreen = PlayerSettings.SplashScreen.show;
         }
 
         public override void PrepareSettings()
@@ -24,6 +30,11 @@ namespace Custom.Tool.AutoBuild
             base.PrepareSettings();
             BundleCode = VersionManager.Instance.GetBundleCode();
 
+        }
+
+        private void OnValueChange()
+        {
+            PlayerSettings.SplashScreen.show = SplashScreen;
         }
     }
 }
