@@ -40,6 +40,9 @@ namespace Custom.Tool.AutoBuild
             {
                 ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare
                 GitHande.RunGitCommand("tbs unity prepare");
+
+                if (!FileReaderWriter.FailGitSafeRead())
+                    return;
             }
 
             //check if we have version file
@@ -67,6 +70,9 @@ namespace Custom.Tool.AutoBuild
             //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
             GitHande.RunGitCommand("tbs unity version v0.1.0");
 
+            if (!FileReaderWriter.FailGitSafeRead())
+                return;
+
             if(!FileReaderWriter.CheckIfFileExists(_pathVersion))
             {
                 Debug.Log("<b><color=red> File was not created. Is your repo clean?</color></b>");
@@ -76,6 +82,7 @@ namespace Custom.Tool.AutoBuild
             //check the version of file and compare to current in unity
             if(!EditorUserBuildSettings.development)
                 UpgradeVersionPopWindow.OpenWindow();
+
             Debug.Log("<b><color=green> File was created.</color></b>");
         }
 
@@ -226,8 +233,11 @@ namespace Custom.Tool.AutoBuild
             {
                 //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity develop");
                 GitHande.RunGitCommand("tbs unity develop");
-                fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
-                Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
+                if (FileReaderWriter.FailGitSafeRead())
+                {
+                    fileVersion = FileReaderWriter.ReadLineFromFile(_pathDevelopVersion);
+                    Debug.Log("<b><color=blue> Develop version is : </color></b>" + fileVersion);
+                }
             }
             else
             {

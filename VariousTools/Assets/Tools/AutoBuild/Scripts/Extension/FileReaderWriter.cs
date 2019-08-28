@@ -98,5 +98,14 @@ namespace Custom.Tool
             else
                 return "";
         }
+
+        public static bool FailGitSafeRead()
+        {
+            if (ReadLineFromFile(Directory.GetCurrentDirectory() + "/tmp/status_file").Contains("false"))
+                return false;
+            else
+                return true;
+
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace Custom.Tool
     public class VersionPopUpWindow : APopUpWindow
     {
         private static VersionPopUpWindow _window;
+
         public static void OpenWindow()
         {
             _window = GetWindow<VersionPopUpWindow>();
