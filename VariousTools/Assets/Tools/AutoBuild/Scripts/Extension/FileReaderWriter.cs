@@ -102,9 +102,16 @@ namespace Custom.Tool
         public static bool FailGitSafeRead()
         {
             if (ReadLineFromFile(Directory.GetCurrentDirectory() + "/tmp/status_file").Contains("false"))
+            {
+                Debug.LogError("<color=red>Git has failed. Run it again if you missed the message. </color>");
                 return false;
+
+            }
             else
+            {
+                Debug.Log("<color=green>Git was succesfull</color>");
                 return true;
+            }
 
         }
     }
