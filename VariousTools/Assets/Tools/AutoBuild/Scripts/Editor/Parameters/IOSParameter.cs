@@ -6,7 +6,7 @@ namespace Custom.Tool.AutoBuild
 {
     public class IOSParameter : Parameter
     {
-        [BoxGroup("iOS")]
+        [BoxGroup("iOS"), OnValueChanged("OnValueChange")]
         public string BundleCode;
 
         [BoxGroup("iOS"), OnValueChanged("OnValueChange")]
@@ -32,8 +32,9 @@ namespace Custom.Tool.AutoBuild
 
         }
 
-        private void OnValueChange()
+        protected override void OnValueChange()
         {
+            base.OnValueChange();
             PlayerSettings.SplashScreen.show = SplashScreen;
         }
     }

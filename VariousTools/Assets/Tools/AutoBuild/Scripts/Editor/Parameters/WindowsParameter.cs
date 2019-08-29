@@ -20,6 +20,11 @@ namespace Custom.Tool.AutoBuild
             base.SetSettings();
         }
 
+        protected override void OnValueChange()
+        {
+            base.OnValueChange();
+        }
+
     }
 }
 #endif

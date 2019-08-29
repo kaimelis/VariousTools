@@ -17,7 +17,13 @@ namespace Custom.Tool
 
         public static void OpenWindow()
         {
+#if UNITY_2019
             hasKeystore = PlayerSettings.Android.useCustomKeystore;
+#else
+            hasKeystore = true;
+            if (PlayerSettings.Android.keystoreName.Contains("debug") || PlayerSettings.Android.keystoreName == "")
+                hasKeystore = false;
+#endif
             PasswordPopUpWindow _window = GetWindow<PasswordPopUpWindow>();
             _window.position = GUIHelper.GetEditorWindowRect().AlignCenter(400, 200);
             _window.titleContent = new GUIContent("Password Pop Up window", EditorIcons.CharGraph.Active);

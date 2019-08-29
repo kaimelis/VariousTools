@@ -14,12 +14,14 @@ namespace Custom.Tool.AutoBuild
         static readonly string SaltKey = "S@LT&KEY";
         static readonly string VIKey = "@1B2c3D4e5F6g7H8";
 
-
         public static string GetPassword(string name)
         {
-            //check if password is already created
+#if UNITY_2019            //check if password is already created
             if(PlayerSettings.Android.useCustomKeystore == true && PasswordExists(name))
-            {
+            { 
+#else
+            if ((!PlayerSettings.Android.keystoreName.Contains("debug") || PlayerSettings.Android.keystoreName != "") && PasswordExists(name))
+#endif
                 //Get Password
                 string pass = FileReaderWriter.ReadLineFromFile(Directory.GetCurrentDirectory() + "/tmp/" + name);
                 return Decrypt(pass);
