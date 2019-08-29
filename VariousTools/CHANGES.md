@@ -1,3 +1,8 @@
+## Version v0.1.0b2:
+ - Created a new build
+ - [Test]
+ - [Progr]Added a git check for develop and clean repo.
+
 ## Version v0.1.0b1
  - [Test]
  - [Progr]Added a git check for develop and clean repo.
