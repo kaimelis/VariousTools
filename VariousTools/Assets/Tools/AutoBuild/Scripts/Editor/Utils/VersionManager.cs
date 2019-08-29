@@ -39,10 +39,10 @@ namespace Custom.Tool.AutoBuild
             if(!EditorUserBuildSettings.development)
             {
                 ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare
-                GitHande.RunGitCommand("tbs unity prepare");
+               // GitHande.RunGitCommand("tbs unity prepare");
 
-                if (!FileReaderWriter.FailGitSafeRead())
-                    return;
+                //if (!FileReaderWriter.FailGitSafeRead())
+                   // return;
             }
 
             //check if we have version file
@@ -68,7 +68,7 @@ namespace Custom.Tool.AutoBuild
         public void CreateNewVersionFile()
         {
             //GitHande.RunGitCommand("/c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity version v0.1.0");
-            GitHande.RunGitCommand("tbs unity version v0.1.0");
+            GitHande.RunGitCommand("tbs unity version v0.1.0b1");
 
             if (!FileReaderWriter.FailGitSafeRead())
                 return;
@@ -78,12 +78,12 @@ namespace Custom.Tool.AutoBuild
                 Debug.Log("<b><color=red> File was not created. Is your repo clean?</color></b>");
                 return;
             }
+            Debug.Log("<b><color=green> File was created.</color></b>");
 
             //check the version of file and compare to current in unity
             if(!EditorUserBuildSettings.development)
                 UpgradeVersionPopWindow.OpenWindow();
 
-            Debug.Log("<b><color=green> File was created.</color></b>");
         }
 
         public string GetSuggestionVersion()
@@ -142,10 +142,22 @@ namespace Custom.Tool.AutoBuild
 
         private string GetHigherVersion(string version1, string version2)
         {
+            if (version1 == "" && version2 != "")
+                return version2;
+            else if (version1 != "" && version2 == "")
+                return version1;
+
+            Debug.Log(version1);
+            Debug.Log(version2);
+
             #region version1
             var splitVersion1Dot = version1.Split('.');
             var splitVersion1Major = splitVersion1Dot[0].Split('v');
-            string majorVersion1 = splitVersion1Major[1];
+            string majorVersion1 = "";
+            if (splitVersion1Major.Length > 1)
+                 majorVersion1 = splitVersion1Major[1];
+            else
+                 majorVersion1 = splitVersion1Major[0];
             string minorVersion1 = splitVersion1Dot[1];
             var splitBuildVersion1 = splitVersion1Dot[2].Split('b');
             string buildVersion1 = splitBuildVersion1[0];
