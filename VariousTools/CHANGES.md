@@ -1,3 +1,7 @@
+## Version v0.1.0b3:
+ - [Settings]
+ - Added a VERSION update when building
+
 ## Version v0.1.0b2:
  - Created a new build
  - [Test]
