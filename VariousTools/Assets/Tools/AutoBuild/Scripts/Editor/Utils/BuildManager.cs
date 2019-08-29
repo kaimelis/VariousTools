@@ -33,6 +33,14 @@ namespace Custom.Tool.AutoBuild
 
         public void MakeABuild()
         {
+            //update version if needed
+            if (!VersionManager.Instance.CheckVersionUpdate())
+            {
+                Debug.LogError("<b><color=red>There is no version.!</color></b>");
+                return;
+            }
+
+
             BuildPath += BuildName + "/";
 
             if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)

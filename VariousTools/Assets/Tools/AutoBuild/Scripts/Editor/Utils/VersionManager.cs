@@ -63,6 +63,26 @@ namespace Custom.Tool.AutoBuild
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public bool CheckVersionUpdate()
+        {
+            if (!EditorUserBuildSettings.development)
+            {
+                if(CheckVersionFile() != "")
+                {
+                    if (PlayerSettings.bundleVersion == CheckVersionFile())
+                        return true;
+                    FileReaderWriter.WriteToFile(_pathVersion, PlayerSettings.bundleVersion);
+                    return true;
+                }
+                return false;
+            }
+            return true;
+
+        }
+
+        /// <summary>
         /// Creates a VERSION file. If repository does not have a tag then it will create a tag and a file.
         /// </summary>
         public void CreateNewVersionFile()
@@ -268,6 +288,15 @@ namespace Custom.Tool.AutoBuild
             
             //clean up the end of the line
             return fileVersion.Trim();
+        }
+
+        private string CheckVersionFile()
+        {
+            if (FileReaderWriter.CheckIfFileExists(_pathVersion))
+            {
+                return FileReaderWriter.ReadLineFromFile(_pathVersion);
+            }
+            return "";
         }
     }
 }
