@@ -1,4 +1,5 @@
 ## Version v0.1.0b1
+ - [Test] Project has VERSION file but no tag.
  - [Test] Project has a tag but no VERSION file.
  - [AUTO] First tag has been created. VERSION, CHANGE.md added. v0.1.0b1
  - Added a vesrion fix. Check if one of the version is null.
