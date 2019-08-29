@@ -39,10 +39,10 @@ namespace Custom.Tool.AutoBuild
             if(!EditorUserBuildSettings.development)
             {
                 ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare
-               // GitHande.RunGitCommand("tbs unity prepare");
+                GitHande.RunGitCommand("tbs unity prepare");
 
-                //if (!FileReaderWriter.FailGitSafeRead())
-                   // return;
+                if (!FileReaderWriter.FailGitSafeRead())
+                    return;
             }
 
             //check if we have version file
