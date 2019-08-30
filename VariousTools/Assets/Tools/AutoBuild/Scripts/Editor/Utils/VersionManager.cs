@@ -39,10 +39,10 @@ namespace Custom.Tool.AutoBuild
             if(!EditorUserBuildSettings.development)
             {
                 ///c/Users/kaime/Documents/00_MOKSLAI/Graduation/TBS/tbs/tbs unity prepare
-                GitHande.RunGitCommand("tbs unity prepare");
+                //GitHande.RunGitCommand("tbs unity prepare");
 
-                if (!FileReaderWriter.FailGitSafeRead())
-                    return;
+                //if (!FileReaderWriter.FailGitSafeRead())
+                   // return;
             }
 
             //check if we have version file
@@ -134,12 +134,16 @@ namespace Custom.Tool.AutoBuild
 
         public void SetVersion(string version)
         {
-            _version = version;
-            PlayerSettings.bundleVersion = _version;
+            //_version = version;
+            Debug.Log(_version + "      " + version);
 
-            Debug.Log("<b><color=Green> Version set to be : </color></b>" + _version);
+           
+
+            PlayerSettings.bundleVersion = version;
+
+            Debug.Log("<b><color=Green> Version set to be : </color></b>" + version);
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
-                FileReaderWriter.WriteToFile(_pathVersion, _version);
+                FileReaderWriter.WriteToFile(_pathVersion, version);
             else
                 FileReaderWriter.WriteToFile(_pathVersion, _actualVersion);
 
@@ -242,8 +246,17 @@ namespace Custom.Tool.AutoBuild
             //need to check if there is b to split from or not  
             if (splitBuildB.Length > 1)
             {
-                buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
-                buildVersion = Convert.ToInt32(splitBuildB[0]);
+                if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
+                {
+                    buildVersionMinor = Convert.ToInt32(splitBuildB[1]) + 1;
+                    buildVersion = Convert.ToInt32(splitBuildB[0]);
+                }
+                else
+                {
+                    buildVersion = Convert.ToInt32(splitBuildB[0]) + 1;
+                    buildVersionMinor = 1;
+                }
+                
                 version = "v" + splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString() + "b" + buildVersionMinor.ToString();
                 _bundleCode = buildVersionMinor.ToString();
                 _actualVersion = version;
@@ -256,7 +269,10 @@ namespace Custom.Tool.AutoBuild
             }
             
             if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
+            {
+
                 version = splitMajorV[1] + "." + splitVersionDot[1] + "." + buildVersion.ToString();
+            }
             Debug.Log("<b><color=green> Suggested version is: </color></b> = " + version);
             return version;
         }

@@ -97,8 +97,8 @@ namespace Custom.Tool.AutoBuild
         public override void PrepareSettings()
         {
             base.PrepareSettings();
-
-            BundleVersionCode += 1;
+            if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.iOS)
+                BundleVersionCode += 1;
             PlayerSettings.Android.bundleVersionCode = BundleVersionCode;
             Debug.Log("<b><color=red> Bundle version has been updated.</color></b>");
         }
