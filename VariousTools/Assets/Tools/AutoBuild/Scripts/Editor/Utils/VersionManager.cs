@@ -149,15 +149,18 @@ namespace Custom.Tool.AutoBuild
 
         public string GetBundleCode()
         {
-            //if(_bundleCode == null)
-            //{
-            //    string version = GetVersionFromFile();
-            //    var splitMajor = version.Split('.');
-            //    var splitBuild = splitMajor[2].Split('b');
-            //    _bundleCode = splitBuild[1];
-            //    Debug.Log(_bundleCode);
-            //}
-            return "";
+            if(_bundleCode == null)
+            {
+                string version = CheckVersionFile();
+                var splitMajor = version.Split('.');
+                var splitBuild = splitMajor[2].Split('b');
+                if (splitBuild.Length > 1)
+                    _bundleCode = splitBuild[1];
+                else
+                    _bundleCode = "1";
+                return _bundleCode;
+            }
+             return _bundleCode;
         }
 
         private string GetHigherVersion(string version1, string version2)
@@ -296,7 +299,7 @@ namespace Custom.Tool.AutoBuild
             {
                 return FileReaderWriter.ReadLineFromFile(_pathVersion);
             }
-            return "";
+            return PlayerSettings.bundleVersion;
         }
     }
 }

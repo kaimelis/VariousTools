@@ -21,14 +21,16 @@ namespace Custom.Tool.AutoBuild
         public override void SetSettings()
         {
             base.SetSettings();
-            BundleCode = VersionManager.Instance.GetBundleCode();
+            if(EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
+                BundleCode = VersionManager.Instance.GetBundleCode();
             SplashScreen = PlayerSettings.SplashScreen.show;
         }
 
         public override void PrepareSettings()
         {
             base.PrepareSettings();
-            BundleCode = VersionManager.Instance.GetBundleCode();
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
+                BundleCode = VersionManager.Instance.GetBundleCode();
 
         }
 
