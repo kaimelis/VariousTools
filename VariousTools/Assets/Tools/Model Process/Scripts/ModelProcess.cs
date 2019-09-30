@@ -20,7 +20,7 @@ namespace Custom.Tool.ModelProcess
         }
 
         [TabGroup("MAIN", "MODELS")]
-        [AssetList(CustomFilterMethod = "IsModel", Path = "/Models/")]
+        [AssetList(CustomFilterMethod = "IsModel", Path = "/Models/", AutoPopulate = true)]
         [InlineEditor(InlineEditorModes.SmallPreview)]
         public List<Object> Models = new List<Object>();
 
@@ -53,11 +53,10 @@ namespace Custom.Tool.ModelProcess
                     "Yes",
                     "No"))
                 {
-                    GameObject existingPrefab = AssetDatabase.LoadAssetAtPath(destinyPath, typeof(GameObject)) as GameObject;
-                    GameObject fbx = AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)) as GameObject;
-                    // GameObject prefab = PrefabUtility.ReplacePrefab(fbx, existingPrefab, ReplacePrefabOptions.ConnectToPrefab);
-                    GameObject prefab = PrefabUtility.SaveAsPrefabAssetAndConnect(fbx, destinyPath, InteractionMode.AutomatedAction);
-                    //prefab.RemoveComponentIfExists<Animator>();
+                    GameObject go = AssetDatabase.LoadAssetAtPath(destinyPath, typeof(GameObject)) as GameObject;
+                    GameObject objSource = (GameObject)PrefabUtility.InstantiatePrefab(go);
+                    GameObject prefab = PrefabUtility.SaveAsPrefabAssetAndConnect(objSource, destinyPath, InteractionMode.AutomatedAction);
+                    DestroyImmediate(objSource);
                     GameObjectUtility.SetStaticEditorFlags(prefab, StaticEditorFlags.BatchingStatic | StaticEditorFlags.NavigationStatic | StaticEditorFlags.OccludeeStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OffMeshLinkGeneration | StaticEditorFlags.ReflectionProbeStatic);
                     Debug.Log("Overwritten prefab at " + destinyPath);
                 }
@@ -65,7 +64,6 @@ namespace Custom.Tool.ModelProcess
             else
             {
                 GameObject go = AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)) as GameObject;
-
                 GameObject objSource = (GameObject)PrefabUtility.InstantiatePrefab(go);
                 GameObject prefab = PrefabUtility.SaveAsPrefabAsset(objSource, destinyPath);
                 DestroyImmediate(objSource);
