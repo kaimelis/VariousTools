@@ -1,3 +1,6 @@
+## Version v0.1.0b7:
+
+
 ## Version v0.1.0b6:
  - trip
  - disabled password
