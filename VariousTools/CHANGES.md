@@ -1,3 +1,15 @@
+## Version v0.1.0b5:
+ - Something was updated.
+ - Added automatic material creation and assign  to prefabs.
+ - Added FBX->prefab tool. Working on filling material with textures.
+ - Versio upgrade
+ - iOS build fix.
+ - Fixed Ios bundle code change
+ - [Progr] Fix other platforms also receive the change.
+ - [AUTO] Build was made. ProjectSettings, VERSION, CHANGES.md have been updated. v0.1.0b3
+ - [Settings]
+ - Added a VERSION update when building
+
 ## Version v0.1.0b3:
  - [Settings]
  - Added a VERSION update when building
