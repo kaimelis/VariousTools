@@ -1,3 +1,10 @@
+## Version v0.1.0b6:
+ - trip
+ - disabled password
+ - Had to relocate the project
+ - Safe test
+ - Added first version of the autobuild
+
 ## Version v0.1.0b5:
  - Something was updated.
  - Added automatic material creation and assign  to prefabs.
