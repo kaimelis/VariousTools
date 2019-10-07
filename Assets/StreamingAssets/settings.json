@@ -1,5 +1,5 @@
 {
-    "screen": "Left",
+    "screen": "Right",
     "ip": "127.0.0.1",
     "port": 10000,
     "waitingTime": 4,
