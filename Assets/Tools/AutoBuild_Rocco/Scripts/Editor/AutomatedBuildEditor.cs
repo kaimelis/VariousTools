@@ -280,29 +280,32 @@ namespace Custom.Tool
         private void DeleteFiles()
         {
             Debug.Log("<color=red>Deleting files</color>");
-            if(_buildType == BuildType.Center)
+            string newPath = _buildPath +  "/" + PlayerSettings.productName + "_" + _buildType.ToString() + "_Data/StreamingAssets";
+            if (_buildType == BuildType.Left || _buildType == BuildType.Right)
             {
-               var files =  Directory.GetFiles(_buildPath, "*center*");
+               var files =  Directory.GetFiles(newPath, "*center*", SearchOption.AllDirectories);
                 for (int i = 0; i < files.Length; i++)
                 {
-                    Debug.Log(files[i]);
+                    Debug.Log("<color=red>" + files[i] + "</color>");
+                    File.Delete(files[i]);
                 }
             }
-           
-            else if (_buildType == BuildType.Right)
+            if (_buildType == BuildType.Center || _buildType == BuildType.Left)
             {
-                var files = Directory.GetFiles(_buildPath, "*right*");
+                var files = Directory.GetFiles(newPath, "*right*",SearchOption.AllDirectories);
                 for (int i = 0; i < files.Length; i++)
                 {
-                    Debug.Log(files[i]);
+                    Debug.Log("<color=red>" + files[i] + "</color>");
+                    File.Delete(files[i]);
                 }
             }
-            else if (_buildType == BuildType.Left)
+             if (_buildType == BuildType.Right || _buildType == BuildType.Center)
             {
-                var files = Directory.GetFiles(_buildPath, "*left*");
+                var files = Directory.GetFiles(newPath, "*left*", SearchOption.AllDirectories);
                 for (int i = 0; i < files.Length; i++)
                 {
-                    Debug.Log(files[i]);
+                    Debug.Log("<color=red>" + files[i] + "</color>");
+                    File.Delete(files[i]);
                 }
             }
 
